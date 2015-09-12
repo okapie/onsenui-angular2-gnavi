@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Tabbar Demo | Onsen UI</title>
+    <link rel="stylesheet" href="css/onsenui.css">
+    <link rel="stylesheet" href="css/onsen-css-components.css">
+
+    <style>
+        .plan-list {
+            border-top: none;
+            background-image: none !important;
+        }
+        .plan {
+            line-height: 1;
+            padding: 0;
+        }
+        .plan-left {
+            text-align: right;
+            padding: 10px 10px 10px 0;
+        }
+        .plan-center {
+            background-color: #3399ff;
+            opacity: 0.5;
+        }
+        .plan-right {
+            padding: 10px 40px 10px 10px;
+        }
+        .plan-date {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .plan-duration {
+            font-size: 11px;
+            opacity: 0.4;
+        }
+        .plan-name {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+        .plan-info {
+            opacity: 0.4;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+    </style>
+
+    <script>window.registerElement = undefined;</script>
+    <script src="js/ons-core.js"></script>
+
+    <script src="js/hammer.js"></script>
+    <script src="js/traceur-runtime.js"></script>
+    <script src="js/system@0.16.11.js"></script>
+    <script src="js/angular2.a27.dev.js"></script>
+</head>
+
+<body>
+<okp-app></okp-app>
+
+<script>
+    var app = System.import('./app');
+</script>
+</body>
+</html>
+
+<!--
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <script>
+        var module = ons.bootstrap();
+    </script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="AppController">
+
+    <ons-tabbar>
+        <ons-tab page="search.html" active="true" icon="fa-search" label="検索"></ons-tab>
+        <ons-tab page="like.html" ng-click="showLikeTab()" icon="fa-list" label="お気に入り"></ons-tab>
+    </ons-tabbar>
+
+    <ons-template id="search.html">
+        <ons-navigator var="navi">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="center">現在地から検索</div>
+                </ons-toolbar>
+                <div>
+                    <div style="height: 160px;">
+                    </div>
+                    <ons-button modifier="large--cta" ng-click="search()">検索する</ons-button>
+                </div>
+            </ons-page>
+        </ons-navigator>
+    </ons-template>
+    
+    <ons-template id="result.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left"><ons-back-button ons-if-platform="ios">戻る</ons-back-button></div>
+                <div class="center">検索結果</div>
+            </ons-toolbar>
+            <div style="height:80px; display:hidden;">
+                <ons-list>
+                    <ons-list-item ng-repeat="shop in searchShops" modifier="chevron">
+                        <div ng-click="openWithBrowser(shop.url_mobile)">
+                            <div>
+                                {{shop.name}}
+                            </div>
+                            <div ng-show="shop.hasShopImage == true">
+                                <img ng-src="{{shop.image_url.shop_image1}}">
+                            </div>
+                            <div>住所: {{shop.address}}</div>
+                            <div ng-show="shop.isLiked == false">
+                                <a href="javascript:void(0);" ng-click="addLike($event, shop.id)">お気に入りに追加</a>
+                            </div>
+                            <div ng-show="shop.isLiked == true">
+                                お気に入りに追加済み
+                            </div>
+                            <br>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+            </div>
+        </ons-page>
+    </ons-template>
+    
+    <ons-template id="like.html">
+        <ons-navigator var="navi">
+            <ons-page>
+                <ons-toolbar>
+                    <div class="center">お気に入り</div>
+                    <div class="right"><ons-toolbar-button ng-click="clearLike()">クリア</ons-toolbar-button></div>
+                </ons-toolbar>
+                <div style="height:80px; display:hidden;">
+                    <div ng-show="likeShops.length > 0">
+                        <ons-list>
+                            <ons-list-item ng-repeat="shop in likeShops"  modifier="chevron">
+                                <div ng-click="openWithBrowser(shop.url_mobile)">
+                                    <div class="detail-title">
+                                        {{shop.name}}
+                                    </div>
+                                    <div ng-show="shop.hasShopImage == true">
+                                        <img ng-src="{{shop.image_url.shop_image1}}">
+                                    </div>
+                                    <div>住所: {{shop.address}}</div>
+                                    <div ng-show="shop.isLiked == false">
+                                        <a href="javascript:void(0);" ng-click="addLike($event, shop.id)">お気に入りに追加</a>
+                                    </div>
+                                    <div ng-show="shop.isLiked == true">
+                                        お気に入りに追加済み
+                                    </div>
+                                    <br>
+                                </div>
+                            </ons-list-item>
+                        </ons-list>
+                    </div>
+                </div>
+            </ons-page>
+        </ons-navigator>
+    </ons-template>
+</body>
+</html>
+-->

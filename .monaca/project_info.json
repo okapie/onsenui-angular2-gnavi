@@ -1,0 +1,22 @@
+{
+    "plugins": [
+        "mobi.monaca.plugins.Monaca",
+        "org.apache.cordova.inappbrowser",
+        "org.apache.cordova.geolocation"
+    ],
+    "framework_version": "3.5",
+    "xcode_version": "6",
+    "cordova_version": "4.1",
+    "plugin_settings": [],
+    "title-ja": "ShopSearch",
+    "title-en": "",
+    "description-ja": "ShopSearch",
+    "description-en": "",
+    "category": "User Template",
+    "platform": [
+        "android",
+        "ios"
+    ],
+    "name": "generated-1441329926-559d09eb7e2193e570a859b4",
+    "external_plugins": []
+}
