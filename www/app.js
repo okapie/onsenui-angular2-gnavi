@@ -11,6 +11,31 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
 var angular2_1 = require('angular2/angular2');
+var HttpSample = (function () {
+    function HttpSample(http) {
+        this.result = { friends: [] };
+        http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+            .success(function (data, status, headers, config) {
+            $scope.searchShops = $scope.createShops(data);
+            navi.pushPage('result.html');
+        })
+            .error(function (data, status, headers, config) {
+            alert('error');
+        });
+    }
+    HttpSample = __decorate([
+        angular2_1.Component({
+            selector: 'http'
+        }),
+        angular2_1.View({
+            templateUrl: './index.html',
+            directives: [angular2_1.NgFor]
+        }), 
+        __metadata('design:paramtypes', [(typeof Http !== 'undefined' && Http) || Object])
+    ], HttpSample);
+    return HttpSample;
+})();
+exports.HttpSample = HttpSample;
 var Schedule = (function () {
     function Schedule() {
     }
@@ -98,6 +123,28 @@ var AddItemPage = (function () {
     });
     AddItemPage.prototype.addActivity = function (title, location, time) {
         console.log("お気に入りに入れるボタンが押された");
+        /*
+              navigator.geolocation.getCurrentPosition(
+                  function(position){
+                      var latitude = position.coords.latitude;
+                      var longitude = position.coords.longitude;
+                      var range = '1';
+                      $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+                          .success(function(data, status, headers, config) {
+                              $scope.searchShops = $scope.createShops(data);
+                              navi.pushPage('result.html');
+                          })
+                          .error(function(data, status, headers, config) {
+                              alert('error');
+                          });
+                  },
+                  function(error){
+                      alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+                  }
+              );
+        
+              */
         if (title.length && location.length) {
             this.schedule.add({ title: title, location: location, time: time });
             this.tabbar.setActiveTab(0);
@@ -108,7 +155,7 @@ var AddItemPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u691C\u7D22\u7D50\u679C</div>\n    </ons-toolbar>\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity(title.value, location.value, time.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u304A\u6C17\u306B\u5165\u308A\u306B\u5165\u308C\u308B\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u691C\u7D22\u7D50\u679C</div>\n    </ons-toolbar>\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity(title.value, location.value, time.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [angular2_1.ElementRef, Schedule])

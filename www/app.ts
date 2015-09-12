@@ -6,7 +6,6 @@ declare var keyid = '878b251d597e2d443b1e960d54591f00';
 declare var format = 'json';
 
 import {
-  Http,
   Component,
   View,
   bootstrap,
@@ -18,16 +17,28 @@ import {
   Injector
 } from 'angular2/angular2';
 
-
-
-
-
-
-
-
-
-
-
+import {Http} from 'angular2/http'
+@Component({
+    selector: 'http'
+})
+@View({
+    templateUrl: './index.html',
+    directives: [NgFor]
+})
+export class HttpSample {
+    result: Object;
+    constructor(http: Http) {
+        this.result = {friends:[]};
+        http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+            .success(function(data, status, headers, config) {
+                $scope.searchShops = $scope.createShops(data);
+                navi.pushPage('result.html');
+            })
+            .error(function(data, status, headers, config) {
+                alert('error');
+            });
+    }
+}
 
 class Schedule {
   _getItems() {
@@ -153,7 +164,7 @@ class SchedulePage {
 
     <div style="padding: 10px 9px">
       <ons-button (click)="addActivity(title.value, location.value, time.value)" modifier="large" style="margin: 0 auto;">
-        お気に入りに入れる
+        現在地から探す
       </ons-button>
     </div>
   </ons-page>
@@ -185,6 +196,32 @@ class AddItemPage {
 
   addActivity(title, location, time) {
     console.log("お気に入りに入れるボタンが押された");
+
+
+/*
+      navigator.geolocation.getCurrentPosition(
+          function(position){
+              var latitude = position.coords.latitude;
+              var longitude = position.coords.longitude;
+              var range = '1';
+              $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+                  .success(function(data, status, headers, config) {
+                      $scope.searchShops = $scope.createShops(data);
+                      navi.pushPage('result.html');
+                  })
+                  .error(function(data, status, headers, config) {
+                      alert('error');
+                  });
+          },
+          function(error){
+              alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+          }
+      );
+
+      */
+
+
     if (title.length && location.length) {
       this.schedule.add({title: title, location: location, time: time});
       this.tabbar.setActiveTab(0);
