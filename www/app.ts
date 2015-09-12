@@ -80,6 +80,7 @@ class Schedule {
   }
 }
 
+
 @Component({
   selector: 'ons-page'
 })
@@ -87,10 +88,11 @@ class Schedule {
   template: `
   <ons-page>
     <ons-toolbar>
-      <h2 class="center">おかぴの飯ログ</h2>
+      <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff">おかぴの飯ログ</div>
     </ons-toolbar>
 
     <ons-list class="plan-list">
+      <div style="text-align:center;">お気に入りリスト</div>
       <ons-list-item (press)="schedule.remove(i)" *ng-for="#item of schedule.items; #i = index;" class="plan">
         <ons-row>
           <ons-col width="80px" class="plan-left">
@@ -224,20 +226,18 @@ var searchRest = function() {
     <ons-tabbar animation="slide">
       <ons-tab
         no-reload
-        page="schedule.html"
-        icon=""
+        page="list.html"
         active="true">
-        <p>お気に入りリスト</p>
+        <ons-button modifier="large" style="margin: 0 2px;">
+          お気に入りリスト
+        </ons-button>
       </ons-tab>
       <ons-tab
         no-reload
-        icon=""
         page="search.html">
-
-        <p>
-          <button ng-click="searchRest()">go</button>
-        </p>
-
+        <ons-button modifier="large" style="margin: 0 2px 0 2px;">
+         探す！
+        </ons-button>
       </ons-tab>
     </ons-tabbar>
   `
@@ -245,13 +245,12 @@ var searchRest = function() {
 class MyAppComponent {
 }
 
-
 bootstrap(MyAppComponent).then(result => {
   var injector: Injector = result.injector;
   var loader: DynamicComponentLoader = injector.get(DynamicComponentLoader);
 
   var dict = {
-    'schedule.html': SchedulePage,
+    'list.html': SchedulePage,
     'search.html': AddItemPage
   };
 

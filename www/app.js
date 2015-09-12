@@ -67,7 +67,7 @@ var SchedulePage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <h2 class=\"center\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</h2>\n    </ons-toolbar>\n\n    <ons-list class=\"plan-list\">\n      <ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n        <ons-row>\n          <ons-col width=\"80px\" class=\"plan-left\">\n            <div class=\"plan-date\">{{ item.time }}</div>\n            <div class=\"plan-duration\">{{ item.duration }}</div>\n          </ons-col>\n\n          <ons-col width=\"6px\" class=\"plan-center\">\n          </ons-col>\n\n          <ons-col class=\"plan-right\">\n            <div class=\"plan-name\">{{ item.title }}</div>\n\n            <div *ng-if=\"item.location\" class=\"plan-info\">\n              <div>\n                <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n              </div>\n            </div>\n          </ons-col>\n        </ons-row>\n      </ons-list-item>\n    </ons-list>\n\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n    </ons-toolbar>\n\n    <ons-list class=\"plan-list\">\n      <div style=\"text-align:center;\">\u304A\u6C17\u306B\u5165\u308A\u30EA\u30B9\u30C8</div>\n      <ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n        <ons-row>\n          <ons-col width=\"80px\" class=\"plan-left\">\n            <div class=\"plan-date\">{{ item.time }}</div>\n            <div class=\"plan-duration\">{{ item.duration }}</div>\n          </ons-col>\n\n          <ons-col width=\"6px\" class=\"plan-center\">\n          </ons-col>\n\n          <ons-col class=\"plan-right\">\n            <div class=\"plan-name\">{{ item.title }}</div>\n\n            <div *ng-if=\"item.location\" class=\"plan-info\">\n              <div>\n                <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n              </div>\n            </div>\n          </ons-col>\n        </ons-row>\n      </ons-list-item>\n    </ons-list>\n\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [Schedule])
@@ -148,7 +148,7 @@ var MyAppComponent = (function () {
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"schedule.html\"\n        icon=\"\"\n        active=\"true\">\n        <p>\u304A\u6C17\u306B\u5165\u308A\u30EA\u30B9\u30C8</p>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        icon=\"\"\n        page=\"search.html\">\n\n        <p>\n          <button ng-click=\"searchRest()\">go</button>\n        </p>\n\n      </ons-tab>\n    </ons-tabbar>\n  "
+            template: "\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"list.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u304A\u6C17\u306B\u5165\u308A\u30EA\u30B9\u30C8\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);
@@ -158,7 +158,7 @@ angular2_1.bootstrap(MyAppComponent).then(function (result) {
     var injector = result.injector;
     var loader = injector.get(angular2_1.DynamicComponentLoader);
     var dict = {
-        'schedule.html': SchedulePage,
+        'list.html': SchedulePage,
         'search.html': AddItemPage
     };
     OnsTabElement.prototype._createPageElement = function (page, callback) {
