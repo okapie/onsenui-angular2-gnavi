@@ -11,31 +11,35 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
 var angular2_1 = require('angular2/angular2');
-var HttpSample = (function () {
-    function HttpSample(http) {
-        this.result = { friends: [] };
-        http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-            .success(function (data, status, headers, config) {
-            $scope.searchShops = $scope.createShops(data);
-            navi.pushPage('result.html');
-        })
-            .error(function (data, status, headers, config) {
-            alert('error');
-        });
+var Tabs = (function () {
+    function Tabs() {
+        this.tabs = [];
     }
-    HttpSample = __decorate([
+    Tabs.prototype.selectTab = function (tab) {
+        this.tabs.forEach(function (tab) {
+            tab.active = false;
+        });
+        tab.active = true;
+    };
+    Tabs.prototype.addTab = function (tab) {
+        if (this.tabs.length === 0) {
+            tab.active = true;
+        }
+        this.tabs.push(tab);
+    };
+    Tabs = __decorate([
         angular2_1.Component({
-            selector: 'http'
+            selector: 'tabs'
         }),
         angular2_1.View({
-            templateUrl: './index.html',
+            template: "\n<ul>\n    <li *ng-for=\"#tab of tabs\" (click)=\"selectTab(tab)\">\n{{tab.tabTitle}}\n</li>\n</ul>\n<content></content>\n",
             directives: [angular2_1.NgFor]
         }), 
-        __metadata('design:paramtypes', [(typeof Http !== 'undefined' && Http) || Object])
-    ], HttpSample);
-    return HttpSample;
+        __metadata('design:paramtypes', [])
+    ], Tabs);
+    return Tabs;
 })();
-exports.HttpSample = HttpSample;
+exports.Tabs = Tabs;
 var Schedule = (function () {
     function Schedule() {
     }

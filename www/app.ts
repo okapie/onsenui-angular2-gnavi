@@ -18,27 +18,47 @@ import {
 } from 'angular2/angular2';
 
 import {Http} from 'angular2/http'
+
+
+
 @Component({
-    selector: 'http'
+    selector: 'tabs'
 })
 @View({
-    templateUrl: './index.html',
-    directives: [NgFor]
+    template: `
+<ul>
+    <li *ng-for="#tab of tabs" (click)="selectTab(tab)">
+{{tab.tabTitle}}
+</li>
+</ul>
+<content></content>
+`,
+directives: [NgFor]
 })
-export class HttpSample {
-    result: Object;
-    constructor(http: Http) {
-        this.result = {friends:[]};
-        http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-            .success(function(data, status, headers, config) {
-                $scope.searchShops = $scope.createShops(data);
-                navi.pushPage('result.html');
-            })
-            .error(function(data, status, headers, config) {
-                alert('error');
-            });
+export class Tabs {
+    constructor() {
+        this.tabs = [];
+    }
+
+    selectTab(tab) {
+        this.tabs.forEach((tab) => {
+            tab.active = false;
+        });
+        tab.active = true;
+    }
+
+    addTab(tab: Tab) {
+        if (this.tabs.length === 0) {
+            tab.active = true;
+        }
+        this.tabs.push(tab);
     }
 }
+
+
+
+
+
 
 class Schedule {
   _getItems() {
