@@ -17,30 +17,49 @@ import {
   Injector
 } from 'angular2/angular2';
 
-import {Http} from 'angular2/http'
+import {MockBackend, BaseRequestOptions, Http, HTTP_BINDINGS} from 'angular2/http'
+import {Injector,bind} from 'angular2/di'
 
 @Component({
-    selector: 'result'
+    selector: 'result',
+    viewBindings: [HTTP_BINDINGS]
 })
 
 @View({
     templateUrl: './result.html',
     directives: [NgFor]
 })
+var injector = Injector.resolveAndCreate([
+    BaseRequestOptions,
+    MockBackend,
+    bind(Http).toFactory(
+        function(backend, defaultOptions) {
+            return new Http(backend, defaultOptions);
+        },
+        [MockBackend, BaseRequestOptions])
+]);
+var http = injector.get(Http);
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe((res:Response) => doSomething(res));
 export class HttpSample {
     result: Object;
     constructor(http: Http) {
         this.result = {friends:[]};
-        http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-            .success(function(data, status, headers, config) {
+        /*http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})*/
+        /*http.get(apiUrl).subscribe((res:Response) => doSomething(res));*/
+        /*http.get()*/
+/*
+        .success(function(data, status, headers, config) {
                 this.searchShops = this.createShops(data);
                 navi.pushPage('result.html');
             })
             .error(function(data, status, headers, config) {
                 alert('error');
-            });
+            });*/
+
     }
 }
+
+var testhttp = new HttpSample();
 
 class Schedule {
   _getItems() {
@@ -165,7 +184,7 @@ class SchedulePage {
     </ons-list>
 
     <div style="padding: 10px 9px">
-      <ons-button (click)="addActivity(title.value, location.value, time.value)" modifier="large" style="margin: 0 auto;">
+      <ons-button (click)="addActivity()" modifier="large" style="margin: 0 auto;">
         現在地から探す
       </ons-button>
     </div>
@@ -196,8 +215,8 @@ class AddItemPage {
     return node;
   }
 
-  addActivity(title, location, time) {
-    console.log("お気に入りに入れるボタンが押された");
+  addActivity() {
+    console.log("お気に入りに入れるボタンが押された" + testhttp);
 
 
 /*
@@ -223,11 +242,13 @@ class AddItemPage {
 
       */
 
+/*
 
     if (title.length && location.length) {
       this.schedule.add({title: title, location: location, time: time});
       this.tabbar.setActiveTab(0);
     }
+    */
   }
 }
 

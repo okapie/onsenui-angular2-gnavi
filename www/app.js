@@ -11,31 +11,36 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
 var angular2_1 = require('angular2/angular2');
+var http_1 = require('angular2/http');
+var di_1 = require('angular2/di');
+var injector = angular2_1.Injector.resolveAndCreate([
+    http_1.BaseRequestOptions,
+    http_1.MockBackend,
+    di_1.bind(http_1.Http).toFactory(function (backend, defaultOptions) {
+        return new http_1.Http(backend, defaultOptions);
+    }, [http_1.MockBackend, http_1.BaseRequestOptions])
+]);
+var http = injector.get(http_1.Http);
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe(function (res) { return doSomething(res); });
 var HttpSample = (function () {
     function HttpSample(http) {
         this.result = { friends: [] };
-        http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-            .success(function (data, status, headers, config) {
-            this.searchShops = this.createShops(data);
-            navi.pushPage('result.html');
-        })
-            .error(function (data, status, headers, config) {
-            alert('error');
-        });
+        /*http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})*/
+        /*http.get(apiUrl).subscribe((res:Response) => doSomething(res));*/
+        /*http.get()*/
+        /*
+                .success(function(data, status, headers, config) {
+                        this.searchShops = this.createShops(data);
+                        navi.pushPage('result.html');
+                    })
+                    .error(function(data, status, headers, config) {
+                        alert('error');
+                    });*/
     }
-    HttpSample = __decorate([
-        angular2_1.Component({
-            selector: 'result'
-        }),
-        angular2_1.View({
-            templateUrl: './result.html',
-            directives: [angular2_1.NgFor]
-        }), 
-        __metadata('design:paramtypes', [(typeof Http !== 'undefined' && Http) || Object])
-    ], HttpSample);
     return HttpSample;
 })();
 exports.HttpSample = HttpSample;
+var testhttp = new HttpSample();
 var Schedule = (function () {
     function Schedule() {
     }
@@ -121,8 +126,8 @@ var AddItemPage = (function () {
         enumerable: true,
         configurable: true
     });
-    AddItemPage.prototype.addActivity = function (title, location, time) {
-        console.log("お気に入りに入れるボタンが押された");
+    AddItemPage.prototype.addActivity = function () {
+        console.log("お気に入りに入れるボタンが押された" + testhttp);
         /*
               navigator.geolocation.getCurrentPosition(
                   function(position){
@@ -145,17 +150,20 @@ var AddItemPage = (function () {
               );
         
               */
-        if (title.length && location.length) {
-            this.schedule.add({ title: title, location: location, time: time });
-            this.tabbar.setActiveTab(0);
-        }
+        /*
+        
+            if (title.length && location.length) {
+              this.schedule.add({title: title, location: location, time: time});
+              this.tabbar.setActiveTab(0);
+            }
+            */
     };
     AddItemPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u691C\u7D22\u7D50\u679C</div>\n    </ons-toolbar>\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity(title.value, location.value, time.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u691C\u7D22\u7D50\u679C</div>\n    </ons-toolbar>\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [angular2_1.ElementRef, Schedule])
