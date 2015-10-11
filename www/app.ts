@@ -2,8 +2,11 @@
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
 var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
-declare var keyid = '878b251d597e2d443b1e960d54591f00';
-declare var format = 'json';
+var keyid = '878b251d597e2d443b1e960d54591f00';
+var format = 'json';
+var longitude;
+var longitude;
+var range = '1';
 
 import {
   Component,
@@ -39,9 +42,9 @@ var injector = Injector.resolveAndCreate([
         [MockBackend, BaseRequestOptions])
 ]);
 var http = injector.get(Http);
-http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe((res:Response) => doSomething(res));
-
-
+/*
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}}).subscribe((res:Response) => doSomething(res));
+*/
 
 export const $http = {
     get: function(url) {
@@ -94,7 +97,7 @@ class Schedule {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             var range = '1';
-            $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+            $http.get(''http://api.gnavi.co.jp/RestSearchAPI/20150630/'', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
                 .success(function(data, status, headers, config) {
                   this.searchShops = this.createShops(data);
                   navi.pushPage('result.html');
@@ -245,23 +248,13 @@ class AddItemPage {
 
   console.log("addActivityが呼ばれた");
 
-      //本体側からの呼び出し
-      getFirstItem().then(item_category => {
-          //本来やりたかった処理
-          someProcess(item_category);
-      }).then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
-                           //エラー処理
-          console.error(e);
-      });
 
-
-/*
       navigator.geolocation.getCurrentPosition(
           function(position){
               var latitude = position.coords.latitude;
               var longitude = position.coords.longitude;
               var range = '1';
-              $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+              http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
                   .success(function(data, status, headers, config) {
                       $scope.searchShops = $scope.createShops(data);
                       navi.pushPage('result.html');
@@ -276,42 +269,19 @@ class AddItemPage {
           }
       );
 
-      */
 
-/*
 
-    if (title.length && location.length) {
-      this.schedule.add({title: title, location: location, time: time});
-      this.tabbar.setActiveTab(0);
-    }
-    */
+
+      //本体側からの呼び出し
+      getFirstItem().then(item_category => {
+          //本来やりたかった処理
+          someProcess(item_category);
+      }).then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
+                           //エラー処理
+          console.error(e);
+      });
   }
 }
-
-// レストラン検索
-var searchRest = function() {
-    //console.log("お気に入りに入れるボタンが押された");
-    /*
-    navigator.geolocation.getCurrentPosition(
-        function(position){
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var range = '1';
-            $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-                .success(function(data, status, headers, config) {
-                    $scope.searchShops = $scope.createShops(data);
-                    navi.pushPage('result.html');
-                })
-                .error(function(data, status, headers, config) {
-                    alert('error');
-                });
-        },
-        function(error){
-            alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-        }
-    );*/
-};
 
 @Component({
   selector: 'okp-app',

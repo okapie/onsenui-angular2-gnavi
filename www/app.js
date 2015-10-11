@@ -11,6 +11,11 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
 var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
+var keyid = '878b251d597e2d443b1e960d54591f00';
+var format = 'json';
+var longitude;
+var longitude;
+var range = '1';
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
 var di_1 = require('angular2/di');
@@ -22,7 +27,9 @@ var injector = angular2_1.Injector.resolveAndCreate([
     }, [http_1.MockBackend, http_1.BaseRequestOptions])
 ]);
 var http = injector.get(http_1.Http);
-http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe(function (res) { return doSomething(res); });
+/*
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}}).subscribe((res:Response) => doSomething(res));
+*/
 exports.$http = {
     get: function (url) {
         return getUrl(url);
@@ -72,14 +79,13 @@ var Schedule = (function () {
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 var range = '1';
-                exports.$http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-                    .success(function (data, status, headers, config) {
+                exports.$http.get('', http, success(function (data, status, headers, config) {
                     this.searchShops = this.createShops(data);
                     navi.pushPage('result.html');
                 })
                     .error(function (data, status, headers, config) {
                     alert('error');
-                });
+                }));
             }, function (error) {
                 alert('code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n');
@@ -149,6 +155,22 @@ var AddItemPage = (function () {
     });
     AddItemPage.prototype.addActivity = function () {
         console.log("addActivityが呼ばれた");
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var range = '1';
+            http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+                .success(function (data, status, headers, config) {
+                $scope.searchShops = $scope.createShops(data);
+                navi.pushPage('result.html');
+            })
+                .error(function (data, status, headers, config) {
+                alert('error');
+            });
+        }, function (error) {
+            alert('code: ' + error.code + '\n' +
+                'message: ' + error.message + '\n');
+        });
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
@@ -157,35 +179,6 @@ var AddItemPage = (function () {
             //エラー処理
             console.error(e);
         });
-        /*
-              navigator.geolocation.getCurrentPosition(
-                  function(position){
-                      var latitude = position.coords.latitude;
-                      var longitude = position.coords.longitude;
-                      var range = '1';
-                      $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-                          .success(function(data, status, headers, config) {
-                              $scope.searchShops = $scope.createShops(data);
-                              navi.pushPage('result.html');
-                          })
-                          .error(function(data, status, headers, config) {
-                              alert('error');
-                          });
-                  },
-                  function(error){
-                      alert('code: '    + error.code    + '\n' +
-                      'message: ' + error.message + '\n');
-                  }
-              );
-        
-              */
-        /*
-        
-            if (title.length && location.length) {
-              this.schedule.add({title: title, location: location, time: time});
-              this.tabbar.setActiveTab(0);
-            }
-            */
     };
     AddItemPage = __decorate([
         angular2_1.Component({
@@ -199,30 +192,6 @@ var AddItemPage = (function () {
     ], AddItemPage);
     return AddItemPage;
 })();
-// レストラン検索
-var searchRest = function () {
-    //console.log("お気に入りに入れるボタンが押された");
-    /*
-    navigator.geolocation.getCurrentPosition(
-        function(position){
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var range = '1';
-            $http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-                .success(function(data, status, headers, config) {
-                    $scope.searchShops = $scope.createShops(data);
-                    navi.pushPage('result.html');
-                })
-                .error(function(data, status, headers, config) {
-                    alert('error');
-                });
-        },
-        function(error){
-            alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-        }
-    );*/
-};
 var MyAppComponent = (function () {
     function MyAppComponent() {
     }
