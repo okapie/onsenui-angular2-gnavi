@@ -27,9 +27,6 @@ var injector = angular2_1.Injector.resolveAndCreate([
     }, [http_1.MockBackend, http_1.BaseRequestOptions])
 ]);
 var http = injector.get(http_1.Http);
-/*
-http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}}).subscribe((res:Response) => doSomething(res));
-*/
 exports.$http = {
     get: function (url) {
         return getUrl(url);
@@ -79,13 +76,14 @@ var Schedule = (function () {
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 var range = '1';
-                exports.$http.get('', http, success(function (data, status, headers, config) {
+                exports.$http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+                    .success(function (data, status, headers, config) {
                     this.searchShops = this.createShops(data);
                     navi.pushPage('result.html');
                 })
                     .error(function (data, status, headers, config) {
                     alert('error');
-                }));
+                });
             }, function (error) {
                 alert('code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n');
@@ -125,7 +123,7 @@ var SchedulePage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n    </ons-toolbar>\n\n    <ons-list class=\"plan-list\">\n      <div style=\"text-align:center;\">\u304A\u6C17\u306B\u5165\u308A\u30EA\u30B9\u30C8</div>\n      <ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n        <ons-row>\n          <ons-col width=\"80px\" class=\"plan-left\">\n            <div class=\"plan-date\">{{ item.time }}</div>\n            <div class=\"plan-duration\">{{ item.duration }}</div>\n          </ons-col>\n\n          <ons-col width=\"6px\" class=\"plan-center\">\n          </ons-col>\n\n          <ons-col class=\"plan-right\">\n            <div class=\"plan-name\">{{ item.title }}</div>\n\n            <div *ng-if=\"item.location\" class=\"plan-info\">\n              <div>\n                <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n              </div>\n            </div>\n          </ons-col>\n        </ons-row>\n      </ons-list-item>\n    </ons-list>\n\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n    </ons-toolbar>\n    <!--\n    <ons-list class=\"plan-list\">\n      <div style=\"text-align:center;\">\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059</div>\n      <ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n        <ons-row>\n          <ons-col width=\"80px\" class=\"plan-left\">\n            <div class=\"plan-date\">{{ item.time }}</div>\n            <div class=\"plan-duration\">{{ item.duration }}</div>\n          </ons-col>\n\n          <ons-col width=\"6px\" class=\"plan-center\">\n          </ons-col>\n\n          <ons-col class=\"plan-right\">\n            <div class=\"plan-name\">{{ item.title }}</div>\n\n            <div *ng-if=\"item.location\" class=\"plan-info\">\n              <div>\n                <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n              </div>\n            </div>\n          </ons-col>\n        </ons-row>\n      </ons-list-item>\n    </ons-list>\n    -->\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [Schedule])
@@ -185,7 +183,7 @@ var AddItemPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u691C\u7D22\u7D50\u679C</div>\n    </ons-toolbar>\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <!--\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n    -->\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [angular2_1.ElementRef, Schedule])
@@ -201,7 +199,7 @@ var MyAppComponent = (function () {
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"list.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u304A\u6C17\u306B\u5165\u308A\u30EA\u30B9\u30C8\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n  "
+            template: "\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"list.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);
