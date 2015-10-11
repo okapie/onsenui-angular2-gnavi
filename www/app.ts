@@ -4,9 +4,6 @@ declare var ons: any;
 var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
 var keyid = '878b251d597e2d443b1e960d54591f00';
 var format = 'json';
-var longitude;
-var longitude;
-var range = '1';
 
 import {
   Component,
@@ -19,7 +16,6 @@ import {
   NgIf,
   Injector
 } from 'angular2/angular2';
-
 import {MockBackend, BaseRequestOptions, Http, HTTP_BINDINGS} from 'angular2/http'
 import {Injector,bind} from 'angular2/di'
 
@@ -32,6 +28,7 @@ import {Injector,bind} from 'angular2/di'
   templateUrl: './result.html',
   directives: [NgFor]
 })
+
 var injector = Injector.resolveAndCreate([
   BaseRequestOptions,
   MockBackend,
@@ -41,9 +38,11 @@ var injector = Injector.resolveAndCreate([
     },
   [MockBackend, BaseRequestOptions])
 ]);
-var http = injector.get(Http);
 
-export const $http = {
+/*
+var http = injector.get(Http);
+*/
+export const http = {
   get: function(url) {
     return getUrl(url);
   }
@@ -94,7 +93,7 @@ class Schedule {
           var latitude = position.coords.latitude;
           var longitude = position.coords.longitude;
           var range = '1';
-          $http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+          http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
             .success(function(data, status, headers, config) {
               this.searchShops = this.createShops(data);
               navi.pushPage('result.html');
@@ -111,18 +110,15 @@ class Schedule {
     };
     return JSON.parse(window.localStorage.getItem('schedule') || '[]');
   }
-
   _setItems(items) {
     window.localStorage.setItem('schedule', JSON.stringify(items));
   }
-
   add(item) {
     let items = this._getItems();
     items.push(item);
     items.sort((a, b) => parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')));
     this._setItems(items);
   }
-
   remove(idx) {
     let items = this._getItems();
     items.splice(idx, 1);
@@ -132,7 +128,6 @@ class Schedule {
     return this._getItems();
   }
 }
-
 
 @Component({
   selector: 'ons-page'
@@ -246,11 +241,11 @@ class AddItemPage {
         var longitude = position.coords.longitude;
         var range = '1';
         http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-          .success(function(data, status, headers, config) {
-            $scope.searchShops = $scope.createShops(data);
+          .then(function(data, status, headers, config) {
+            this.searchShops = this.createShops(data);
             navi.pushPage('result.html');
           })
-          .error(function(data, status, headers, config) {
+          .then(function(data, status, headers, config) {
             alert('error');
           });
       },
@@ -262,11 +257,41 @@ class AddItemPage {
       //本体側からの呼び出し
       getFirstItem().then(item_category => {
         //本来やりたかった処理
-        someProcess(item_category);
-      }).then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
+        //someProcess(item_category);
+
+        alert("seikou");
+
+          var shops = [];
+          if(data.total_hit_count > 1){
+              for(var i=0; i<data.rest.length; i++){
+                  shops[i] = data.rest[i];
+                  shops[i].isLiked = this.isLiked(data.rest[i].id);
+                  if(typeof shops[i].image_url.shop_image1 == 'string'){
+                      shops[i].hasShopImage = true;
+                  }else{
+                      shops[i].hasShopImage = false;
+                  }
+              }
+          }else if(data.total_hit_count == 1){
+              shops[0] = data.rest;
+              shops[0].isLiked = this.isLiked(data.rest.id);
+              if(typeof shops[0].image_url.shop_image1 == 'string'){
+                  shops[0].hasShopImage = true;
+              }else{
+                  shops[0].hasShopImage = false;
+              }
+          }
+          return shops;
+
+      });
+      /*
+      .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
         //エラー処理
         console.error(e);
     });
+    */
+
+
   }
 }
 
