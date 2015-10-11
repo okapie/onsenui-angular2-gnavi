@@ -22,6 +22,46 @@ var injector = angular2_1.Injector.resolveAndCreate([
 ]);
 var http = injector.get(http_1.Http);
 http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe(function (res) { return doSomething(res); });
+exports.$http = {
+    get: function (url) {
+        return getUrl(url);
+    }
+};
+function getUrl(url) {
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                resolve(xhr.statusText);
+            }
+            else {
+                //(1)エラーの場合rejectを呼ぶ
+                reject(new Error(xhr.statusText));
+            }
+        };
+        xhr.onerror = function () {
+            //(2)エラーの場合rejectを呼ぶ
+            reject(new Error(xhr.statusText));
+        };
+        xhr.send();
+    });
+}
+//成功した場合の処理
+function someProcess(item_category) {
+    var _item_category = item_category;
+    console.log(item_category);
+}
+//Promiseによる非同期処理
+function getFirstItem() {
+    var items = ["camera", "pc"];
+    return getUrl("/items").then(function (list) {
+        // 並列でのリクエスト実行
+        return Promise.all(items.map(function (item_category) {
+            return getUrl("/items/" + item_category.id);
+        }));
+    });
+}
 var HttpSample = (function () {
     function HttpSample(http) {
         this.result = { friends: [] };
@@ -50,7 +90,7 @@ var Schedule = (function () {
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 var range = '1';
-                $http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+                exports.$http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
                     .success(function (data, status, headers, config) {
                     this.searchShops = this.createShops(data);
                     navi.pushPage('result.html');
@@ -106,20 +146,6 @@ var SchedulePage = (function () {
 })();
 var AddItemPage = (function () {
     function AddItemPage(self, schedule) {
-        this.const = $http = {
-            get: function (url) {
-                return _sendRequest(url, null, 'GET');
-            },
-            post: function (url, payload) {
-                return _sendRequest(url, payload, 'POST');
-            },
-            put: function (url, payload) {
-                return _sendRequest(url, payload, 'PUT');
-            },
-            delete: function (url, payload) {
-                return _sendRequest(url, null, 'DELETE');
-            }
-        };
         this.element = self;
         this.schedule = schedule;
         this.times = [];
@@ -142,27 +168,13 @@ var AddItemPage = (function () {
     });
     AddItemPage.prototype.addActivity = function () {
         console.log("addActivityが呼ばれた");
-        return new Promise(function (resolve, reject) {
-            var req = new XMLHttpRequest();
-            req.open(type, url);
-            req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            req.onload = function () {
-                if (req.status == 200) {
-                    resolve(JSON.parse(req.response));
-                }
-                else {
-                    reject(JSON.parse(req.response));
-                }
-            };
-            req.onerror = function () {
-                reject(JSON.parse(req.response));
-            };
-            if (payLoad) {
-                req.send(JSON.stringify(payLoad));
-            }
-            else {
-                req.send(null);
-            }
+        //本体側からの呼び出し
+        getFirstItem().then(function (item_category) {
+            //本来やりたかった処理
+            someProcess(item_category);
+        }).then(null, function (e) {
+            //エラー処理
+            console.error(e);
         });
         /*
               navigator.geolocation.getCurrentPosition(

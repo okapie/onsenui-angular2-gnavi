@@ -40,6 +40,53 @@ var injector = Injector.resolveAndCreate([
 ]);
 var http = injector.get(Http);
 http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe((res:Response) => doSomething(res));
+
+
+
+export const $http = {
+    get: function(url) {
+        return getUrl(url);
+    }
+}
+
+function getUrl(url) {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                resolve(xhr.statusText);
+            } else {
+                //(1)エラーの場合rejectを呼ぶ
+                reject(new Error(xhr.statusText));
+            }
+        };
+        xhr.onerror = () => {
+            //(2)エラーの場合rejectを呼ぶ
+            reject(new Error(xhr.statusText));
+        };
+        xhr.send();
+    });
+}
+
+//成功した場合の処理
+function someProcess(item_category) {
+    let _item_category = item_category;
+    console.log(item_category);
+}
+
+//Promiseによる非同期処理
+function getFirstItem() {
+    let items = ["camera", "pc"];
+    return getUrl("/items").then(list => {
+        // 並列でのリクエスト実行
+        return Promise.all(items.map(item_category => {
+            return getUrl("/items/" + item_category.id);
+        }));
+    });
+}
+
+
 export class HttpSample {
     result: Object;
     constructor(http: Http) {
@@ -215,48 +262,18 @@ class AddItemPage {
     return node;
   }
 
-    export const $http = {
-    get: function(url: string) {
-        return _sendRequest(url, null, 'GET');
-    },
-    post: function(url: string, payload: any){
-        return _sendRequest(url, payload, 'POST');
-    },
-    put: function(url: string, payload: any){
-        return _sendRequest(url, payload, 'PUT');
-    },
-    delete: function(url: string, payload: any){
-        return _sendRequest(url, null, 'DELETE');
-    }
-}
 
   addActivity() {
 
   console.log("addActivityが呼ばれた");
 
-      return new Promise(function(resolve, reject) {
-          var req = new XMLHttpRequest();
-          req.open(type, url);
-          req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-          req.onload = function() {
-              if (req.status == 200) {
-                  resolve(JSON.parse(req.response));
-
-              } else {
-                  reject(JSON.parse(req.response));
-              }
-          };
-
-          req.onerror = function() {
-              reject(JSON.parse(req.response));
-          };
-
-          if (payLoad) {
-              req.send(JSON.stringify(payLoad));
-          } else {
-              req.send(null);
-          }
+      //本体側からの呼び出し
+      getFirstItem().then(item_category => {
+          //本来やりたかった処理
+          someProcess(item_category);
+      }).then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
+                           //エラー処理
+          console.error(e);
       });
 
 
