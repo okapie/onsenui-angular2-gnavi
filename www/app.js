@@ -10,6 +10,7 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
+var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
 var di_1 = require('angular2/di');
@@ -55,32 +56,13 @@ function someProcess(item_category) {
 //Promiseによる非同期処理
 function getFirstItem() {
     var items = ["camera", "pc"];
-    return getUrl("/items").then(function (list) {
+    return getUrl(url).then(function (list) {
         // 並列でのリクエスト実行
         return Promise.all(items.map(function (item_category) {
-            return getUrl("/items/" + item_category.id);
+            return getUrl(url + item_category.id);
         }));
     });
 }
-var HttpSample = (function () {
-    function HttpSample(http) {
-        this.result = { friends: [] };
-        /*http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})*/
-        /*http.get(apiUrl).subscribe((res:Response) => doSomething(res));*/
-        /*http.get()*/
-        /*
-                .success(function(data, status, headers, config) {
-                        this.searchShops = this.createShops(data);
-                        navi.pushPage('result.html');
-                    })
-                    .error(function(data, status, headers, config) {
-                        alert('error');
-                    });*/
-    }
-    return HttpSample;
-})();
-exports.HttpSample = HttpSample;
-var testhttp = new HttpSample();
 var Schedule = (function () {
     function Schedule() {
     }
@@ -151,7 +133,6 @@ var AddItemPage = (function () {
         this.times = [];
         for (var i in Array.from(Array(24))) {
             var h = i > 9 ? i : '0' + i;
-            ;
             this.times.push(h + ':00');
             this.times.push(h + ':30');
         }

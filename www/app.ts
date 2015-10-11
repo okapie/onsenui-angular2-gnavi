@@ -1,7 +1,7 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
-declare var apiUrl = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
+var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
 declare var keyid = '878b251d597e2d443b1e960d54591f00';
 declare var format = 'json';
 
@@ -78,35 +78,13 @@ function someProcess(item_category) {
 //Promiseによる非同期処理
 function getFirstItem() {
     let items = ["camera", "pc"];
-    return getUrl("/items").then(list => {
+    return getUrl(url).then(list => {
         // 並列でのリクエスト実行
         return Promise.all(items.map(item_category => {
-            return getUrl("/items/" + item_category.id);
+            return getUrl(url + item_category.id);
         }));
     });
 }
-
-
-export class HttpSample {
-    result: Object;
-    constructor(http: Http) {
-        this.result = {friends:[]};
-        /*http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})*/
-        /*http.get(apiUrl).subscribe((res:Response) => doSomething(res));*/
-        /*http.get()*/
-/*
-        .success(function(data, status, headers, config) {
-                this.searchShops = this.createShops(data);
-                navi.pushPage('result.html');
-            })
-            .error(function(data, status, headers, config) {
-                alert('error');
-            });*/
-
-    }
-}
-
-var testhttp = new HttpSample();
 
 class Schedule {
   _getItems() {
@@ -250,7 +228,7 @@ class AddItemPage {
     this.times = [];
 
     for (let i in Array.from(Array(24))) {
-      let h = i > 9 ? i : '0' + i;;
+      let h = i > 9 ? i : '0' + i;
       this.times.push(h + ':00');
       this.times.push(h + ':30');
     }
