@@ -70,8 +70,35 @@ function getUrl(url) {
 
 //成功した場合の処理
 function someProcess(item_category) {
+/*
   let _item_category = item_category;
   console.log(item_category);
+  */
+
+  alert("someProcess");
+
+    var shops = [];
+    if(data.total_hit_count > 1){
+        for(var i=0; i<data.rest.length; i++){
+            shops[i] = data.rest[i];
+            shops[i].isLiked = this.isLiked(data.rest[i].id);
+            if(typeof shops[i].image_url.shop_image1 == 'string'){
+                shops[i].hasShopImage = true;
+            }else{
+                shops[i].hasShopImage = false;
+            }
+        }
+    }else if(data.total_hit_count == 1){
+        shops[0] = data.rest;
+        shops[0].isLiked = this.isLiked(data.rest.id);
+        if(typeof shops[0].image_url.shop_image1 == 'string'){
+            shops[0].hasShopImage = true;
+        }else{
+            shops[0].hasShopImage = false;
+        }
+    }
+    return shops;
+
 }
 
 //Promiseによる非同期処理
@@ -257,31 +284,10 @@ class AddItemPage {
       //本体側からの呼び出し
       getFirstItem().then(item_category => {
         //本来やりたかった処理
-        //someProcess(item_category);
+        someProcess(item_category);
 
         alert("seikou");
 
-          var shops = [];
-          if(data.total_hit_count > 1){
-              for(var i=0; i<data.rest.length; i++){
-                  shops[i] = data.rest[i];
-                  shops[i].isLiked = this.isLiked(data.rest[i].id);
-                  if(typeof shops[i].image_url.shop_image1 == 'string'){
-                      shops[i].hasShopImage = true;
-                  }else{
-                      shops[i].hasShopImage = false;
-                  }
-              }
-          }else if(data.total_hit_count == 1){
-              shops[0] = data.rest;
-              shops[0].isLiked = this.isLiked(data.rest.id);
-              if(typeof shops[0].image_url.shop_image1 == 'string'){
-                  shops[0].hasShopImage = true;
-              }else{
-                  shops[0].hasShopImage = false;
-              }
-          }
-          return shops;
 
       });
       /*
