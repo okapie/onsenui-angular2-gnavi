@@ -210,29 +210,60 @@ var AddItemPage = (function () {
     AddItemPage.prototype.addActivity = function () {
         var _this = this;
         console.log("addActivityが呼ばれた");
-        navigator.geolocation.getCurrentPosition(function (position) {
+        /*
+        navigator.geolocation.getCurrentPosition(
+          function(position){
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             var range = '1';
-            exports.http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-                .then(function (data, status, headers, config) {
+            http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+              .then(function(data, status, headers, config) {
                 this.searchShops = this.createShops(data);
-                navi.pushPage('result.html');
-            })
-                .then(function (data, status, headers, config) {
+                navi.pushPage('testresult.html');
+              })
+              .then(function(data, status, headers, config) {
                 alert('error');
-            });
-        }, function (error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        });
+              });
+          },
+          function(error){
+            alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+          }
+        );
+        */
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
             _this.searchShops = _this.createShops(url);
-            navi.pushPage('result.html');
+            navi.pushPage('testresult.html');
+            _this.createShops = function (url) {
+                var shops = [];
+                if (url.total_hit_count > 1) {
+                    for (var i = 0; i < url.rest.length; i++) {
+                        shops[i] = url.rest[i];
+                        shops[i].isLiked = this.isLiked(url.rest[i].id);
+                        if (typeof shops[i].image_url.shop_image1 == 'string') {
+                            shops[i].hasShopImage = true;
+                        }
+                        else {
+                            shops[i].hasShopImage = false;
+                        }
+                    }
+                }
+                else if (url.total_hit_count == 1) {
+                    shops[0] = url.rest;
+                    shops[0].isLiked = $scope.isLiked(url.rest.id);
+                    if (typeof shops[0].image_url.shop_image1 == 'string') {
+                        shops[0].hasShopImage = true;
+                    }
+                    else {
+                        shops[0].hasShopImage = false;
+                    }
+                }
+                return shops;
+            };
         })
             .then(null, function (e) {
             //エラー処理
