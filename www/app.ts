@@ -75,7 +75,7 @@ function someProcess(item_category) {
   console.log(item_category);
   */
 
-  alert("someProcess");
+  alert(item_category);
 
     var shops = [];
     if(data.total_hit_count > 1){
