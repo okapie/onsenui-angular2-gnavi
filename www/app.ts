@@ -69,10 +69,9 @@ function getUrl(url) {
 }
 
 //成功した場合の処理
-function someProcess(item_category) {
-
-  let _item_category = item_category;
-  alert(_item_category);
+function someProcess(items) {
+  var _items = items;
+  alert("結果は、" + _items);
 
 /*
     var shops = [];
@@ -102,7 +101,7 @@ function someProcess(item_category) {
 
 //Promiseによる非同期処理
 function getFirstItem() {
-  let items = ["camera", "pc"];
+  let items = ["camera", "pc", "ps4"];
   return getUrl(url).then(list => {
     // 並列でのリクエスト実行
     return Promise.all(items.map(item_category => {
@@ -283,7 +282,7 @@ class AddItemPage {
       //本体側からの呼び出し
       getFirstItem().then(item_category => {
         //本来やりたかった処理
-        someProcess(item_category);
+        someProcess(items);
         alert("Success");
       })
       .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録

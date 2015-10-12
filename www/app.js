@@ -52,9 +52,9 @@ function getUrl(url) {
     });
 }
 //成功した場合の処理
-function someProcess(item_category) {
-    var _item_category = item_category;
-    alert(_item_category);
+function someProcess(items) {
+    var _items = items;
+    alert("結果は、" + _items);
     /*
         var shops = [];
         if(data.total_hit_count > 1){
@@ -81,7 +81,7 @@ function someProcess(item_category) {
 }
 //Promiseによる非同期処理
 function getFirstItem() {
-    var items = ["camera", "pc"];
+    var items = ["camera", "pc", "ps4"];
     return getUrl(url).then(function (list) {
         // 並列でのリクエスト実行
         return Promise.all(items.map(function (item_category) {
@@ -194,7 +194,7 @@ var AddItemPage = (function () {
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
-            someProcess(item_category);
+            someProcess(items);
             alert("Success");
         })
             .then(null, function (e) {
