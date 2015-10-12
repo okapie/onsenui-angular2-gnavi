@@ -70,13 +70,11 @@ function getUrl(url) {
 
 //成功した場合の処理
 function someProcess(item_category) {
-/*
+
   let _item_category = item_category;
-  console.log(item_category);
-  */
+  alert(_item_category);
 
-  alert(item_category);
-
+/*
     var shops = [];
     if(data.total_hit_count > 1){
         for(var i=0; i<data.rest.length; i++){
@@ -98,6 +96,7 @@ function someProcess(item_category) {
         }
     }
     return shops;
+    */
 
 }
 
@@ -285,19 +284,12 @@ class AddItemPage {
       getFirstItem().then(item_category => {
         //本来やりたかった処理
         someProcess(item_category);
-
-        alert("seikou");
-
-
-      });
-      /*
+        alert("Success");
+      })
       .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
         //エラー処理
         console.error(e);
     });
-    */
-
-
   }
 }
 

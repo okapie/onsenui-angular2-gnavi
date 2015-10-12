@@ -53,35 +53,31 @@ function getUrl(url) {
 }
 //成功した場合の処理
 function someProcess(item_category) {
+    var _item_category = item_category;
+    alert(_item_category);
     /*
-      let _item_category = item_category;
-      console.log(item_category);
-      */
-    alert(item_category);
-    var shops = [];
-    if (data.total_hit_count > 1) {
-        for (var i = 0; i < data.rest.length; i++) {
-            shops[i] = data.rest[i];
-            shops[i].isLiked = this.isLiked(data.rest[i].id);
-            if (typeof shops[i].image_url.shop_image1 == 'string') {
-                shops[i].hasShopImage = true;
+        var shops = [];
+        if(data.total_hit_count > 1){
+            for(var i=0; i<data.rest.length; i++){
+                shops[i] = data.rest[i];
+                shops[i].isLiked = this.isLiked(data.rest[i].id);
+                if(typeof shops[i].image_url.shop_image1 == 'string'){
+                    shops[i].hasShopImage = true;
+                }else{
+                    shops[i].hasShopImage = false;
+                }
             }
-            else {
-                shops[i].hasShopImage = false;
+        }else if(data.total_hit_count == 1){
+            shops[0] = data.rest;
+            shops[0].isLiked = this.isLiked(data.rest.id);
+            if(typeof shops[0].image_url.shop_image1 == 'string'){
+                shops[0].hasShopImage = true;
+            }else{
+                shops[0].hasShopImage = false;
             }
         }
-    }
-    else if (data.total_hit_count == 1) {
-        shops[0] = data.rest;
-        shops[0].isLiked = this.isLiked(data.rest.id);
-        if (typeof shops[0].image_url.shop_image1 == 'string') {
-            shops[0].hasShopImage = true;
-        }
-        else {
-            shops[0].hasShopImage = false;
-        }
-    }
-    return shops;
+        return shops;
+        */
 }
 //Promiseによる非同期処理
 function getFirstItem() {
@@ -199,14 +195,12 @@ var AddItemPage = (function () {
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
             someProcess(item_category);
-            alert("seikou");
+            alert("Success");
+        })
+            .then(null, function (e) {
+            //エラー処理
+            console.error(e);
         });
-        /*
-        .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
-          //エラー処理
-          console.error(e);
-      });
-      */
     };
     AddItemPage = __decorate([
         angular2_1.Component({
