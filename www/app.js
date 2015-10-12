@@ -13,6 +13,9 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
 var keyid = '878b251d597e2d443b1e960d54591f00';
 var format = 'json';
+var latitude;
+var longitude;
+var range;
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
 var di_1 = require('angular2/di');
@@ -23,11 +26,42 @@ var injector = angular2_1.Injector.resolveAndCreate([
         return new http_1.Http(backend, defaultOptions);
     }, [http_1.MockBackend, http_1.BaseRequestOptions])
 ]);
+this.search = function () {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        range = '1';
+    });
+};
 /*
 var http = injector.get(Http);
 */
 exports.http = {
+    /*
+        navigator.geolocation.getCurrentPosition(
+        function(position){
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var range = '1';
+            http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+    
+    
+                .success(function(data, status, headers, config) {
+                    this.searchShops = this.createShops(data);
+                    navi.pushPage('result.html');
+                })
+                .error(function(data, status, headers, config) {
+                    alert('error');
+                });
+        },
+        function(error){
+            alert('code: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+        }
+    );
+    */
     get: function (url) {
+        url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } };
         return getUrl(url);
     }
 };
@@ -52,9 +86,9 @@ function getUrl(url) {
     });
 }
 //成功した場合の処理
-function someProcess(items) {
-    var _items = items;
-    alert("結果は、" + _items);
+function someProcess(item_category) {
+    var _item_category = item_category;
+    alert("結果は、" + _item_category);
     /*
         var shops = [];
         if(data.total_hit_count > 1){
@@ -194,8 +228,8 @@ var AddItemPage = (function () {
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
-            someProcess(items);
-            alert("Success");
+            someProcess(item_category);
+            alert("Success" + url);
         })
             .then(null, function (e) {
             //エラー処理
