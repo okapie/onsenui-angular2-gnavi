@@ -324,6 +324,8 @@ class AddItemPage {
         //本来やりたかった処理
         someProcess(item_category);
         alert("Success" + url);
+          this.searchShops = this.createShops(url);
+          navi.pushPage('result.html');
       })
       .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
         //エラー処理

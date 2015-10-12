@@ -208,6 +208,7 @@ var AddItemPage = (function () {
         configurable: true
     });
     AddItemPage.prototype.addActivity = function () {
+        var _this = this;
         console.log("addActivityが呼ばれた");
         navigator.geolocation.getCurrentPosition(function (position) {
             var latitude = position.coords.latitude;
@@ -230,6 +231,8 @@ var AddItemPage = (function () {
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
+            _this.searchShops = _this.createShops(url);
+            navi.pushPage('result.html');
         })
             .then(null, function (e) {
             //エラー処理
