@@ -108,13 +108,42 @@ function getUrl(url) {
   });
 }
 
+class OkpSchedule {
+    constructor(message){
+        this.message = message;
+    }
+}
+class OkpSchedulePage {
+    schedule: OkpSchedule;
+
+    constructor(schedule: OkpSchedule) {
+        this.schedule = schedule;
+    }
+}
+
+@Component({
+    selector: 'okp-app-2',
+    appInjector: [OkpSchedule]
+})
+@View({
+    template: `
+
+<ons-button modifier="large" style="margin: 0 2px;">
+てすと
+</ons-button>
+
+`
+})
+class MyAppComponent {
+}
+
 //成功した場合の処理
 function someProcess(item_category) {
   var _item_category = item_category;
   alert("結果は、" + _item_category);
 
     var dict = {
-        'list.html': SchedulePage,
+        '_list.html': OkpSchedulePage
     };
 
     loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
@@ -377,6 +406,7 @@ class AddItemPage {
       .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
         //エラー処理
         console.error(e);
+        alert("失敗");
     });
   }
 }

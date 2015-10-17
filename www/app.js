@@ -85,12 +85,39 @@ function getUrl(url) {
         xhr.send();
     });
 }
+var OkpSchedule = (function () {
+    function OkpSchedule(message) {
+        this.message = message;
+    }
+    return OkpSchedule;
+})();
+var OkpSchedulePage = (function () {
+    function OkpSchedulePage(schedule) {
+        this.schedule = schedule;
+    }
+    return OkpSchedulePage;
+})();
+var MyAppComponent = (function () {
+    function MyAppComponent() {
+    }
+    MyAppComponent = __decorate([
+        angular2_1.Component({
+            selector: 'okp-app-2',
+            appInjector: [OkpSchedule]
+        }),
+        angular2_1.View({
+            template: "\n\n<ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n\u3066\u3059\u3068\n</ons-button>\n\n"
+        }), 
+        __metadata('design:paramtypes', [])
+    ], MyAppComponent);
+    return MyAppComponent;
+})();
 //成功した場合の処理
 function someProcess(item_category) {
     var _item_category = item_category;
     alert("結果は、" + _item_category);
     var dict = {
-        'list.html': SchedulePage,
+        '_list.html': OkpSchedulePage
     };
     loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
         console.log(result._hostComponent.hostView);
@@ -275,6 +302,7 @@ var AddItemPage = (function () {
             .then(null, function (e) {
             //エラー処理
             console.error(e);
+            alert("失敗");
         });
     };
     AddItemPage = __decorate([
