@@ -240,20 +240,6 @@ var AddItemPage = (function () {
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
-            /*
-            
-                      var dict = {
-                          'list.html': SchedulePage,
-                          'search.html': AddItemPage,
-                          '_list.html': OkpSchedulePage
-                      };
-            
-                      loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
-                          console.log(result._hostComponent.hostView);
-                          callback(componentRef.location.domElement);
-                      });
-            
-            */
             _this.searchShops = _this.createShops(url);
             navi.pushPage('testresult.html');
             _this.createShops = function (url) {
@@ -310,7 +296,7 @@ var MyAppComponent = (function () {
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"_list.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n  "
+            template: "\n\n\n<ons-page>\n<ons-toolbar>\n<div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n</ons-toolbar>\n\n\n<ons-tabbar animation=\"slide\">\n<ons-tab\nno-reload\npage=\"home.html\"\nactive=\"true\">\n<ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n</ons-button>\n</ons-tab>\n<ons-tab\nno-reload\npage=\"search.html\">\n<ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n\u63A2\u3059\uFF01\n</ons-button>\n</ons-tab>\n</ons-tabbar>\n\n</ons-page>\n\n\n  <!--\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"home.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n    -->\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);
@@ -320,7 +306,7 @@ angular2_1.bootstrap(MyAppComponent).then(function (result) {
     var injector = result.injector;
     var loader = injector.get(angular2_1.DynamicComponentLoader);
     var dict = {
-        'list.html': SchedulePage,
+        'home.html': SchedulePage,
         'search.html': AddItemPage,
         '_list.html': OkpSchedulePage
     };

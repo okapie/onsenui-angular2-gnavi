@@ -382,20 +382,6 @@ class AddItemPage {
         //本来やりたかった処理
         someProcess(item_category);
         alert("Success" + url);
-/*
-
-          var dict = {
-              'list.html': SchedulePage,
-              'search.html': AddItemPage,
-              '_list.html': OkpSchedulePage
-          };
-
-          loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
-              console.log(result._hostComponent.hostView);
-              callback(componentRef.location.domElement);
-          });
-
-*/
 
           this.searchShops = this.createShops(url);
           navi.pushPage('testresult.html');
@@ -439,10 +425,40 @@ class AddItemPage {
 })
 @View({
   template: `
+
+
+<ons-page>
+<ons-toolbar>
+<div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff">おかぴの飯ログ</div>
+</ons-toolbar>
+
+
+<ons-tabbar animation="slide">
+<ons-tab
+no-reload
+page="home.html"
+active="true">
+<ons-button modifier="large" style="margin: 0 2px;">
+ホームでやんす
+</ons-button>
+</ons-tab>
+<ons-tab
+no-reload
+page="search.html">
+<ons-button modifier="large" style="margin: 0 2px 0 2px;">
+探す！
+</ons-button>
+</ons-tab>
+</ons-tabbar>
+
+</ons-page>
+
+
+  <!--
     <ons-tabbar animation="slide">
       <ons-tab
         no-reload
-        page="_list.html"
+        page="home.html"
         active="true">
         <ons-button modifier="large" style="margin: 0 2px;">
           ホームでやんす
@@ -456,6 +472,7 @@ class AddItemPage {
         </ons-button>
       </ons-tab>
     </ons-tabbar>
+    -->
   `
 })
 class MyAppComponent {
@@ -467,7 +484,7 @@ bootstrap(MyAppComponent).then(result => {
 
 
     var dict = {
-        'list.html': SchedulePage,
+        'home.html': SchedulePage,
         'search.html': AddItemPage,
         '_list.html': OkpSchedulePage
     };
