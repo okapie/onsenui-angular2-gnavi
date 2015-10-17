@@ -142,16 +142,6 @@ function someProcess(item_category) {
   var _item_category = item_category;
   alert("結果は、" + _item_category);
 
-    var dict = {
-        '_list.html': OkpSchedulePage
-    };
-
-    loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
-        console.log(result._hostComponent.hostView);
-        callback(componentRef.location.domElement);
-    });
-
-
 
 /*
     var shops = [];
@@ -372,6 +362,16 @@ class AddItemPage {
         alert("Success" + url);
 
 
+          var dict = {
+              'list.html': SchedulePage,
+              'search.html': AddItemPage,
+              '_list.html': OkpSchedulePage
+          };
+
+          loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
+              console.log(result._hostComponent.hostView);
+              callback(componentRef.location.domElement);
+          });
 
 
 
@@ -443,10 +443,12 @@ bootstrap(MyAppComponent).then(result => {
   var injector: Injector = result.injector;
   var loader: DynamicComponentLoader = injector.get(DynamicComponentLoader);
 
-  var dict = {
-    'list.html': SchedulePage,
-    'search.html': AddItemPage
-  };
+
+    var dict = {
+        'list.html': SchedulePage,
+        'search.html': AddItemPage,
+        '_list.html': OkpSchedulePage
+    };
 
   OnsTabElement.prototype._createPageElement = function(page, callback) {
     if (dict[page]) {

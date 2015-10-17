@@ -116,13 +116,6 @@ var MyAppComponent = (function () {
 function someProcess(item_category) {
     var _item_category = item_category;
     alert("結果は、" + _item_category);
-    var dict = {
-        '_list.html': OkpSchedulePage
-    };
-    loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
-        console.log(result._hostComponent.hostView);
-        callback(componentRef.location.domElement);
-    });
     /*
         var shops = [];
         if(data.total_hit_count > 1){
@@ -270,6 +263,15 @@ var AddItemPage = (function () {
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
+            var dict = {
+                'list.html': SchedulePage,
+                'search.html': AddItemPage,
+                '_list.html': OkpSchedulePage
+            };
+            loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
+                console.log(result._hostComponent.hostView);
+                callback(componentRef.location.domElement);
+            });
             _this.searchShops = _this.createShops(url);
             navi.pushPage('testresult.html');
             _this.createShops = function (url) {
@@ -337,7 +339,8 @@ angular2_1.bootstrap(MyAppComponent).then(function (result) {
     var loader = injector.get(angular2_1.DynamicComponentLoader);
     var dict = {
         'list.html': SchedulePage,
-        'search.html': AddItemPage
+        'search.html': AddItemPage,
+        '_list.html': OkpSchedulePage
     };
     OnsTabElement.prototype._createPageElement = function (page, callback) {
         if (dict[page]) {
