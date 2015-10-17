@@ -22,16 +22,6 @@ import {
 import {MockBackend, BaseRequestOptions, Http, HTTP_BINDINGS} from 'angular2/http'
 import {Injector,bind} from 'angular2/di'
 
-@Component({
-  selector: 'result',
-  viewBindings: [HTTP_BINDINGS]
-})
-
-@View({
-  templateUrl: './result.html',
-  directives: [NgFor]
-})
-
 var injector = Injector.resolveAndCreate([
   BaseRequestOptions,
   MockBackend,
@@ -84,9 +74,9 @@ function getUrl(url) {
 }
 
 //成功した場合の処理
-function someProcess(item_category) {
-  var _item_category = item_category;
-  alert("結果は、" + _item_category);
+function someProcess(url) {
+  var _url = url;
+  alert("結果は、" + _url);
 
 }
 
@@ -95,14 +85,14 @@ function getFirstItem() {
   let items = ["camera", "pc", "ps4"];
   return getUrl(url).then(list => {
     // 並列でのリクエスト実行
-    return Promise.all(items.map(item_category => {
-      return getUrl(url + item_category.id);
+    return Promise.all(items.map(url => {
+      return getUrl(url + url.id);
     }));
   });
 }
 
 class getHome {
-  _getItems() {
+  getRestoResult() {
     this.search = function() {
       navigator.geolocation.getCurrentPosition(
         function(position){
@@ -130,18 +120,18 @@ class getHome {
     window.localStorage.setItem('gethome', JSON.stringify(items));
   }
   add(item) {
-    let items = this._getItems();
+    let items = this.getRestoResult();
     items.push(item);
     items.sort((a, b) => parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')));
     this._setItems(items);
   }
   remove(idx) {
-    let items = this._getItems();
+    let items = this.getRestoResult();
     items.splice(idx, 1);
     this._setItems(items);
   }
   get items() {
-    return this._getItems();
+    return this.getRestoResult();
   }
 }
 

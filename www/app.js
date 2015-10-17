@@ -63,24 +63,24 @@ function getUrl(url) {
     });
 }
 //成功した場合の処理
-function someProcess(item_category) {
-    var _item_category = item_category;
-    alert("結果は、" + _item_category);
+function someProcess(url) {
+    var _url = url;
+    alert("結果は、" + _url);
 }
 //Promiseによる非同期処理
 function getFirstItem() {
     var items = ["camera", "pc", "ps4"];
     return getUrl(url).then(function (list) {
         // 並列でのリクエスト実行
-        return Promise.all(items.map(function (item_category) {
-            return getUrl(url + item_category.id);
+        return Promise.all(items.map(function (url) {
+            return getUrl(url + url.id);
         }));
     });
 }
 var getHome = (function () {
     function getHome() {
     }
-    getHome.prototype._getItems = function () {
+    getHome.prototype.getRestoResult = function () {
         this.search = function () {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var latitude = position.coords.latitude;
@@ -105,19 +105,19 @@ var getHome = (function () {
         window.localStorage.setItem('gethome', JSON.stringify(items));
     };
     getHome.prototype.add = function (item) {
-        var items = this._getItems();
+        var items = this.getRestoResult();
         items.push(item);
         items.sort(function (a, b) { return parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')); });
         this._setItems(items);
     };
     getHome.prototype.remove = function (idx) {
-        var items = this._getItems();
+        var items = this.getRestoResult();
         items.splice(idx, 1);
         this._setItems(items);
     };
     Object.defineProperty(getHome.prototype, "items", {
         get: function () {
-            return this._getItems();
+            return this.getRestoResult();
         },
         enumerable: true,
         configurable: true
