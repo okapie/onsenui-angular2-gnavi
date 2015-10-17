@@ -113,6 +113,17 @@ function someProcess(item_category) {
   var _item_category = item_category;
   alert("結果は、" + _item_category);
 
+    var dict = {
+        'list.html': SchedulePage,
+    };
+
+    loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
+        console.log(result._hostComponent.hostView);
+        callback(componentRef.location.domElement);
+    });
+
+
+
 /*
     var shops = [];
     if(data.total_hit_count > 1){
@@ -330,6 +341,11 @@ class AddItemPage {
         //本来やりたかった処理
         someProcess(item_category);
         alert("Success" + url);
+
+
+
+
+
           this.searchShops = this.createShops(url);
           navi.pushPage('testresult.html');
 
@@ -405,6 +421,7 @@ bootstrap(MyAppComponent).then(result => {
   OnsTabElement.prototype._createPageElement = function(page, callback) {
     if (dict[page]) {
       loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
+      console.log(result._hostComponent.hostView);
         callback(componentRef.location.domElement);
       });
     }

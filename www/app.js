@@ -89,6 +89,13 @@ function getUrl(url) {
 function someProcess(item_category) {
     var _item_category = item_category;
     alert("結果は、" + _item_category);
+    var dict = {
+        'list.html': SchedulePage,
+    };
+    loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
+        console.log(result._hostComponent.hostView);
+        callback(componentRef.location.domElement);
+    });
     /*
         var shops = [];
         if(data.total_hit_count > 1){
@@ -307,6 +314,7 @@ angular2_1.bootstrap(MyAppComponent).then(function (result) {
     OnsTabElement.prototype._createPageElement = function (page, callback) {
         if (dict[page]) {
             loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
+                console.log(result._hostComponent.hostView);
                 callback(componentRef.location.domElement);
             });
         }
