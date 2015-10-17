@@ -133,7 +133,7 @@ var SchedulePage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n\n\n\n<ons-list class=\"plan-list\">\n<div style=\"text-align:center;\">\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059</div>\n<ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n<ons-row>\n<ons-col width=\"80px\" class=\"plan-left\">\n<div class=\"plan-date\">{{ item.time }}</div>\n<div class=\"plan-duration\">{{ item.duration }}</div>\n</ons-col>\n\n<ons-col width=\"6px\" class=\"plan-center\">\n</ons-col>\n\n<ons-col class=\"plan-right\">\n<div class=\"plan-name\">{{ item.title }}</div>\n\n<div *ng-if=\"item.location\" class=\"plan-info\">\n<div>\n    <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n</div>\n</div>\n</ons-col>\n</ons-row>\n</ons-list-item>\n</ons-list>\n\n\n\n  </ons-page>\n  ",
+            template: "\n    <div style=\"text-align:center; padding-top:50px;\">\n      <img src=\"images/title.png\" width=\"320px\" >\n      <img src=\"images/top-yakitori.png\" width=\"320px\">\n    </div>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [Schedule])
@@ -246,7 +246,7 @@ var MyAppComponent = (function () {
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"search.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u63A2\u3059\uFF01\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "
+            template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\"></div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"search.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u63A2\u3059\uFF01\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);

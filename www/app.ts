@@ -150,37 +150,10 @@ class Schedule {
 })
 @View({
   template: `
-
-
-
-<ons-list class="plan-list">
-<div style="text-align:center;">ホームでやんす</div>
-<ons-list-item (press)="schedule.remove(i)" *ng-for="#item of schedule.items; #i = index;" class="plan">
-<ons-row>
-<ons-col width="80px" class="plan-left">
-<div class="plan-date">{{ item.time }}</div>
-<div class="plan-duration">{{ item.duration }}</div>
-</ons-col>
-
-<ons-col width="6px" class="plan-center">
-</ons-col>
-
-<ons-col class="plan-right">
-<div class="plan-name">{{ item.title }}</div>
-
-<div *ng-if="item.location" class="plan-info">
-<div>
-    <ons-icon icon="fa-map-marker">現在地</ons-icon>&nbsp;{{ item.location }}
-</div>
-</div>
-</ons-col>
-</ons-row>
-</ons-list-item>
-</ons-list>
-
-
-
-  </ons-page>
+    <div style="text-align:center; padding-top:50px;">
+      <img src="images/title.png" width="320px" >
+      <img src="images/top-yakitori.png" width="320px">
+    </div>
   `,
   directives: [NgFor, NgIf]
 })
@@ -310,7 +283,7 @@ class AddItemPage {
   template: `
     <ons-page>
       <ons-toolbar>
-        <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff">おかぴの飯ログ</div>
+        <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff"></div>
       </ons-toolbar>
       <ons-tabbar animation="slide">
         <ons-tab no-reload page="home.html" active="true">
