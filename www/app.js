@@ -86,33 +86,10 @@ function getUrl(url) {
     });
 }
 var OkpSchedule = (function () {
-    function OkpSchedule(message) {
-        this.message = message;
+    function OkpSchedule() {
     }
     return OkpSchedule;
 })();
-var OkpSchedulePage = (function () {
-    function OkpSchedulePage(schedule) {
-        this.schedule = schedule;
-    }
-    return OkpSchedulePage;
-})();
-var MyAppComponent = (function () {
-    function MyAppComponent() {
-    }
-    MyAppComponent = __decorate([
-        angular2_1.Component({
-            selector: 'okp-app-2',
-            appInjector: [OkpSchedule]
-        }),
-        angular2_1.View({
-            template: "\n\n<ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n\u3066\u3059\u3068\n</ons-button>\n\n"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], MyAppComponent);
-    return MyAppComponent;
-})();
-//成功した場合の処理
 function someProcess(item_category) {
     var _item_category = item_category;
     alert("結果は、" + _item_category);
@@ -263,15 +240,20 @@ var AddItemPage = (function () {
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
-            var dict = {
-                'list.html': SchedulePage,
-                'search.html': AddItemPage,
-                '_list.html': OkpSchedulePage
-            };
-            loader.loadIntoNewLocation(dict[page], new angular2_1.ElementRef(result._hostComponent.hostView, 0)).then(function (componentRef) {
-                console.log(result._hostComponent.hostView);
-                callback(componentRef.location.domElement);
-            });
+            /*
+            
+                      var dict = {
+                          'list.html': SchedulePage,
+                          'search.html': AddItemPage,
+                          '_list.html': OkpSchedulePage
+                      };
+            
+                      loader.loadIntoNewLocation(dict[page], new ElementRef(result._hostComponent.hostView, 0)).then(componentRef => {
+                          console.log(result._hostComponent.hostView);
+                          callback(componentRef.location.domElement);
+                      });
+            
+            */
             _this.searchShops = _this.createShops(url);
             navi.pushPage('testresult.html');
             _this.createShops = function (url) {

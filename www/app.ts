@@ -109,16 +109,6 @@ function getUrl(url) {
 }
 
 class OkpSchedule {
-    constructor(message){
-        this.message = message;
-    }
-}
-class OkpSchedulePage {
-    schedule: OkpSchedule;
-
-    constructor(schedule: OkpSchedule) {
-        this.schedule = schedule;
-    }
 }
 
 @Component({
@@ -127,15 +117,16 @@ class OkpSchedulePage {
 })
 @View({
     template: `
+<ons-tabbar animation="slide">
+<ons-tab
+no-reload
+page="_list.html"
+active="true">
 
-<ons-button modifier="large" style="margin: 0 2px;">
-てすと
-</ons-button>
-
+</ons-tab>
+</ons-tabbar>
 `
 })
-class MyAppComponent {
-}
 
 //成功した場合の処理
 function someProcess(item_category) {
@@ -360,7 +351,7 @@ class AddItemPage {
         //本来やりたかった処理
         someProcess(item_category);
         alert("Success" + url);
-
+/*
 
           var dict = {
               'list.html': SchedulePage,
@@ -373,7 +364,7 @@ class AddItemPage {
               callback(componentRef.location.domElement);
           });
 
-
+*/
 
           this.searchShops = this.createShops(url);
           navi.pushPage('testresult.html');
