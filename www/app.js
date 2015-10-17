@@ -77,10 +77,10 @@ function getFirstItem() {
         }));
     });
 }
-var Schedule = (function () {
-    function Schedule() {
+var getHome = (function () {
+    function getHome() {
     }
-    Schedule.prototype._getItems = function () {
+    getHome.prototype._getItems = function () {
         this.search = function () {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var latitude = position.coords.latitude;
@@ -99,34 +99,34 @@ var Schedule = (function () {
                     'message: ' + error.message + '\n');
             });
         };
-        return JSON.parse(window.localStorage.getItem('schedule') || '[]');
+        return JSON.parse(window.localStorage.getItem('gethome') || '[]');
     };
-    Schedule.prototype._setItems = function (items) {
-        window.localStorage.setItem('schedule', JSON.stringify(items));
+    getHome.prototype._setItems = function (items) {
+        window.localStorage.setItem('gethome', JSON.stringify(items));
     };
-    Schedule.prototype.add = function (item) {
+    getHome.prototype.add = function (item) {
         var items = this._getItems();
         items.push(item);
         items.sort(function (a, b) { return parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')); });
         this._setItems(items);
     };
-    Schedule.prototype.remove = function (idx) {
+    getHome.prototype.remove = function (idx) {
         var items = this._getItems();
         items.splice(idx, 1);
         this._setItems(items);
     };
-    Object.defineProperty(Schedule.prototype, "items", {
+    Object.defineProperty(getHome.prototype, "items", {
         get: function () {
             return this._getItems();
         },
         enumerable: true,
         configurable: true
     });
-    return Schedule;
+    return getHome;
 })();
 var homePage = (function () {
-    function homePage(schedule) {
-        this.schedule = schedule;
+    function homePage(gethome) {
+        this.gethome = gethome;
     }
     homePage = __decorate([
         angular2_1.Component({
@@ -136,7 +136,7 @@ var homePage = (function () {
             template: "\n    <div style=\"text-align:center; padding-top:50px;\">\n      <img src=\"images/title.png\" width=\"320px\" >\n      <img src=\"images/top-yakitori.png\" width=\"320px\">\n    </div>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
-        __metadata('design:paramtypes', [Schedule])
+        __metadata('design:paramtypes', [getHome])
     ], homePage);
     return homePage;
 })();
@@ -204,7 +204,7 @@ var meshiLogComponent = (function () {
     meshiLogComponent = __decorate([
         angular2_1.Component({
             selector: 'okp-app',
-            appInjector: [Schedule]
+            appInjector: [getHome]
         }),
         angular2_1.View({
             template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u30D8\u30C3\u30C0\u30FC</div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"meshilog.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u3081\u3057\u30ED\u30B0\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "

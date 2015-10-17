@@ -101,7 +101,7 @@ function getFirstItem() {
   });
 }
 
-class Schedule {
+class getHome {
   _getItems() {
     this.search = function() {
       navigator.geolocation.getCurrentPosition(
@@ -124,10 +124,10 @@ class Schedule {
         }
       );
     };
-    return JSON.parse(window.localStorage.getItem('schedule') || '[]');
+    return JSON.parse(window.localStorage.getItem('gethome') || '[]');
   }
   _setItems(items) {
-    window.localStorage.setItem('schedule', JSON.stringify(items));
+    window.localStorage.setItem('gethome', JSON.stringify(items));
   }
   add(item) {
     let items = this._getItems();
@@ -158,10 +158,10 @@ class Schedule {
   directives: [NgFor, NgIf]
 })
 class homePage {
-  schedule: Schedule;
+  gethome: getHome;
 
-  constructor(schedule: Schedule) {
-    this.schedule = schedule;
+  constructor(gethome: getHome) {
+    this.gethome = gethome;
   }
 }
 
@@ -230,7 +230,7 @@ class meshiLogPage {
 
 @Component({
   selector: 'okp-app',
-  appInjector: [Schedule]
+  appInjector: [getHome]
 })
 @View({
   template: `
