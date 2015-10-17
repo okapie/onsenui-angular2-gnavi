@@ -150,10 +150,7 @@ class Schedule {
 })
 @View({
   template: `
-  <ons-page>
-    <ons-toolbar>
-      <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff">おかぴの飯ログ</div>
-    </ons-toolbar>
+
 
 
 <ons-list class="plan-list">
