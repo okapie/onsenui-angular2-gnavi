@@ -124,11 +124,11 @@ var Schedule = (function () {
     });
     return Schedule;
 })();
-var SchedulePage = (function () {
-    function SchedulePage(schedule) {
+var homePage = (function () {
+    function homePage(schedule) {
         this.schedule = schedule;
     }
-    SchedulePage = __decorate([
+    homePage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
@@ -137,54 +137,15 @@ var SchedulePage = (function () {
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [Schedule])
-    ], SchedulePage);
-    return SchedulePage;
+    ], homePage);
+    return homePage;
 })();
-var AddItemPage = (function () {
-    function AddItemPage(self, schedule) {
-        this.element = self;
-        this.schedule = schedule;
-        this.times = [];
-        for (var i in Array.from(Array(24))) {
-            var h = i > 9 ? i : '0' + i;
-            this.times.push(h + ':00');
-            this.times.push(h + ':30');
-        }
+var meshiLogPage = (function () {
+    function meshiLogPage() {
     }
-    Object.defineProperty(AddItemPage.prototype, "tabbar", {
-        get: function () {
-            var node = this.element.domElement;
-            while ((node = node.parentNode).nodeName !== 'ONS-TABBAR')
-                ;
-            return node;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    AddItemPage.prototype.addActivity = function () {
+    meshiLogPage.prototype.searchResto = function () {
         var _this = this;
-        console.log("addActivityが呼ばれた");
-        /*
-        navigator.geolocation.getCurrentPosition(
-          function(position){
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var range = '1';
-            http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-              .then(function(data, status, headers, config) {
-                this.searchShops = this.createShops(data);
-                navi.pushPage('testresult.html');
-              })
-              .then(function(data, status, headers, config) {
-                alert('error');
-              });
-          },
-          function(error){
-            alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-          }
-        );
-        */
+        console.log("searchRestoが呼ばれた");
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
             //本来やりたかった処理
@@ -225,39 +186,39 @@ var AddItemPage = (function () {
             alert("失敗");
         });
     };
-    AddItemPage = __decorate([
+    meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
-        __metadata('design:paramtypes', [angular2_1.ElementRef, Schedule])
-    ], AddItemPage);
-    return AddItemPage;
+        __metadata('design:paramtypes', [])
+    ], meshiLogPage);
+    return meshiLogPage;
 })();
-var MyAppComponent = (function () {
-    function MyAppComponent() {
+var meshiLogComponent = (function () {
+    function meshiLogComponent() {
     }
-    MyAppComponent = __decorate([
+    meshiLogComponent = __decorate([
         angular2_1.Component({
             selector: 'okp-app',
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\"></div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"search.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u63A2\u3059\uFF01\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "
+            template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u30D8\u30C3\u30C0\u30FC</div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"meshilog.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u3081\u3057\u30ED\u30B0\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "
         }), 
         __metadata('design:paramtypes', [])
-    ], MyAppComponent);
-    return MyAppComponent;
+    ], meshiLogComponent);
+    return meshiLogComponent;
 })();
-angular2_1.bootstrap(MyAppComponent).then(function (result) {
+angular2_1.bootstrap(meshiLogComponent).then(function (result) {
     var injector = result.injector;
     var loader = injector.get(angular2_1.DynamicComponentLoader);
     var dict = {
-        'home.html': SchedulePage,
-        'search.html': AddItemPage
+        'home.html': homePage,
+        'meshilog.html': meshiLogPage
     };
     OnsTabElement.prototype._createPageElement = function (page, callback) {
         if (dict[page]) {

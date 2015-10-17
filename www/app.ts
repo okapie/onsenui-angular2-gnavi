@@ -157,7 +157,7 @@ class Schedule {
   `,
   directives: [NgFor, NgIf]
 })
-class SchedulePage {
+class homePage {
   schedule: Schedule;
 
   constructor(schedule: Schedule) {
@@ -175,7 +175,7 @@ class SchedulePage {
       <div class="center">探すよん</div>
     </ons-toolbar>
     <div style="padding: 10px 9px">
-      <ons-button (click)="addActivity()" modifier="large" style="margin: 0 auto;">
+      <ons-button (click)="searchResto()" modifier="large" style="margin: 0 auto;">
         現在地から探す
       </ons-button>
     </div>
@@ -183,56 +183,9 @@ class SchedulePage {
   `,
   directives: [NgFor]
 })
-class AddItemPage {
-  times: Array<string>;
-  element: ElementRef;
-  schedule: Schedule;
-
-  constructor(self: ElementRef, schedule: Schedule) {
-    this.element = self;
-    this.schedule = schedule;
-    this.times = [];
-
-    for (let i in Array.from(Array(24))) {
-      let h = i > 9 ? i : '0' + i;
-      this.times.push(h + ':00');
-      this.times.push(h + ':30');
-    }
-  }
-
-  get tabbar() {
-    let node: Node = this.element.domElement;
-    while ((node = node.parentNode).nodeName !== 'ONS-TABBAR');
-    return node;
-  }
-
-  addActivity() {
-    console.log("addActivityが呼ばれた");
-
-    /*
-    navigator.geolocation.getCurrentPosition(
-      function(position){
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        var range = '1';
-        http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-          .then(function(data, status, headers, config) {
-            this.searchShops = this.createShops(data);
-            navi.pushPage('testresult.html');
-          })
-          .then(function(data, status, headers, config) {
-            alert('error');
-          });
-      },
-      function(error){
-        alert('code: '    + error.code    + '\n' +
-        'message: ' + error.message + '\n');
-      }
-    );
-    */
-
-
-
+class meshiLogPage {
+  searchResto() {
+    console.log("searchRestoが呼ばれた");
       //本体側からの呼び出し
       getFirstItem().then(item_category => {
         //本来やりたかった処理
@@ -283,7 +236,7 @@ class AddItemPage {
   template: `
     <ons-page>
       <ons-toolbar>
-        <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff"></div>
+        <div class="center" style="font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff">ヘッダー</div>
       </ons-toolbar>
       <ons-tabbar animation="slide">
         <ons-tab no-reload page="home.html" active="true">
@@ -291,24 +244,24 @@ class AddItemPage {
             ホームでやんす
           </ons-button>
         </ons-tab>
-        <ons-tab no-reload page="search.html">
+        <ons-tab no-reload page="meshilog.html">
           <ons-button modifier="large" style="margin: 0 2px 0 2px;">
-            探す！
+            めしログ
           </ons-button>
         </ons-tab>
       </ons-tabbar>
     </ons-page>
   `
 })
-class MyAppComponent {
+class meshiLogComponent {
 }
 
-bootstrap(MyAppComponent).then(result => {
+bootstrap(meshiLogComponent).then(result => {
   var injector: Injector = result.injector;
   var loader: DynamicComponentLoader = injector.get(DynamicComponentLoader);
   var dict = {
-    'home.html': SchedulePage,
-    'search.html': AddItemPage
+    'home.html': homePage,
+    'meshilog.html': meshiLogPage
   };
   OnsTabElement.prototype._createPageElement = function(page, callback) {
     if (dict[page]) {
