@@ -53,46 +53,9 @@ export const http = {
   }
 }
 
-function getUrl(url) {
-  return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-      resolve(xhr.statusText);
-      } else {
-      //(1)エラーの場合rejectを呼ぶ
-      reject(new Error(xhr.statusText));
-      }
-    };
-    xhr.onerror = () => {
-      //(2)エラーの場合rejectを呼ぶ
-      reject(new Error(xhr.statusText));
-    };
-    xhr.send();
-  });
-}
-
-//成功した場合の処理
-function someProcess(url) {
-  var _url = url;
-  alert("結果は、" + _url);
-
-}
-
-//Promiseによる非同期処理
-function getFirstItem() {
-  let items = ["camera", "pc", "ps4"];
-  return getUrl(url).then(list => {
-    // 並列でのリクエスト実行
-    return Promise.all(items.map(url => {
-      return getUrl(url + url.id);
-    }));
-  });
-}
-
 class getHome {
   getRestoResult() {
+  /*
     this.search = function() {
       navigator.geolocation.getCurrentPosition(
         function(position){
@@ -113,7 +76,7 @@ class getHome {
           'message: ' + error.message + '\n');
         }
       );
-    };
+    };*/
     return JSON.parse(window.localStorage.getItem('gethome') || '[]');
   }
   _setItems(items) {
@@ -175,13 +138,92 @@ class homePage {
 })
 class meshiLogPage {
   searchResto() {
+
+      this.search = function() {
+          navigator.geolocation.getCurrentPosition(
+              function(position){
+                  var latitude = position.coords.latitude;
+                  var longitude = position.coords.longitude;
+                  var range = '1';
+                  http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+                      .success(function(data, status, headers, config) {
+                          this.searchShops = this.createShops(data);
+                          navi.pushPage('result.html');
+                      })
+                      .error(function(data, status, headers, config) {
+                          alert('error');
+                      });
+              },
+              function(error){
+                  alert('code: '    + error.code    + '\n' +
+                  'message: ' + error.message + '\n');
+              }
+          );
+      };
+
+
+      /*
+       var http = injector.get(Http);
+       */
+      export const http = {
+          get: function(url) {
+              url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
+              return getUrl(url);
+          }
+      }
+
+
+
+      function getUrl(url) {
+          return new Promise((resolve, reject) => {
+              let xhr = new XMLHttpRequest();
+              xhr.open("GET", url);
+              xhr.onload = () => {
+                  if (xhr.status === 200) {
+                      resolve(xhr.statusText);
+                  } else {
+                      //(1)エラーの場合rejectを呼ぶ
+                      reject(new Error(xhr.statusText));
+                  }
+              };
+              xhr.onerror = () => {
+                  //(2)エラーの場合rejectを呼ぶ
+                  reject(new Error(xhr.statusText));
+              };
+              xhr.send();
+          });
+      }
+
+//成功した場合の処理
+      function someProcess(item_category) {
+          var _item_category = item_category;
+          alert("結果は、" + _item_category);
+
+      }
+
+//Promiseによる非同期処理
+      function getFirstItem() {
+          let items = ["camera", "pc", "ps4"];
+          return getUrl(url).then(list => {
+              // 並列でのリクエスト実行
+              return Promise.all(items.map(item_category => {
+                  return getUrl(url + item_category.id);
+              }));
+          });
+      }
+
+
+
     console.log("searchRestoが呼ばれた");
       //本体側からの呼び出し
       getFirstItem().then(item_category => {
+
+      alert(url);
         //本来やりたかった処理
         someProcess(item_category);
         alert("Success" + url);
 
+/*
           this.searchShops = this.createShops(url);
           navi.pushPage('testresult.html');
 
@@ -207,7 +249,7 @@ class meshiLogPage {
                   }
               }
               return shops;
-          };
+          };*/
 
       })
       .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録

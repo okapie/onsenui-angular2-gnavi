@@ -42,63 +42,32 @@ exports.http = {
         return getUrl(url);
     }
 };
-function getUrl(url) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                resolve(xhr.statusText);
-            }
-            else {
-                //(1)エラーの場合rejectを呼ぶ
-                reject(new Error(xhr.statusText));
-            }
-        };
-        xhr.onerror = function () {
-            //(2)エラーの場合rejectを呼ぶ
-            reject(new Error(xhr.statusText));
-        };
-        xhr.send();
-    });
-}
-//成功した場合の処理
-function someProcess(url) {
-    var _url = url;
-    alert("結果は、" + _url);
-}
-//Promiseによる非同期処理
-function getFirstItem() {
-    var items = ["camera", "pc", "ps4"];
-    return getUrl(url).then(function (list) {
-        // 並列でのリクエスト実行
-        return Promise.all(items.map(function (url) {
-            return getUrl(url + url.id);
-        }));
-    });
-}
 var getHome = (function () {
     function getHome() {
     }
     getHome.prototype.getRestoResult = function () {
-        this.search = function () {
-            navigator.geolocation.getCurrentPosition(function (position) {
+        /*
+          this.search = function() {
+            navigator.geolocation.getCurrentPosition(
+              function(position){
                 var latitude = position.coords.latitude;
                 var longitude = position.coords.longitude;
                 var range = '1';
-                exports.http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-                    .success(function (data, status, headers, config) {
+                http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+                  .success(function(data, status, headers, config) {
                     this.searchShops = this.createShops(data);
                     navi.pushPage('result.html');
-                })
-                    .error(function (data, status, headers, config) {
+                  })
+                  .error(function(data, status, headers, config) {
                     alert('error');
-                });
-            }, function (error) {
-                alert('code: ' + error.code + '\n' +
-                    'message: ' + error.message + '\n');
-            });
-        };
+                  });
+              },
+              function(error){
+                alert('code: '    + error.code    + '\n' +
+                'message: ' + error.message + '\n');
+              }
+            );
+          };*/
         return JSON.parse(window.localStorage.getItem('gethome') || '[]');
     };
     getHome.prototype._setItems = function (items) {
@@ -144,41 +113,102 @@ var meshiLogPage = (function () {
     function meshiLogPage() {
     }
     meshiLogPage.prototype.searchResto = function () {
-        var _this = this;
+        this.search = function () {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                var range = '1';
+                http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+                    .success(function (data, status, headers, config) {
+                    this.searchShops = this.createShops(data);
+                    navi.pushPage('result.html');
+                })
+                    .error(function (data, status, headers, config) {
+                    alert('error');
+                });
+            }, function (error) {
+                alert('code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n');
+            });
+        };
+        /*
+         var http = injector.get(Http);
+         */
+        exports.http = {
+            get: function (url) {
+                url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } };
+                return getUrl(url);
+            }
+        };
+        function getUrl(url) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        resolve(xhr.statusText);
+                    }
+                    else {
+                        //(1)エラーの場合rejectを呼ぶ
+                        reject(new Error(xhr.statusText));
+                    }
+                };
+                xhr.onerror = function () {
+                    //(2)エラーの場合rejectを呼ぶ
+                    reject(new Error(xhr.statusText));
+                };
+                xhr.send();
+            });
+        }
+        //成功した場合の処理
+        function someProcess(item_category) {
+            var _item_category = item_category;
+            alert("結果は、" + _item_category);
+        }
+        //Promiseによる非同期処理
+        function getFirstItem() {
+            var items = ["camera", "pc", "ps4"];
+            return getUrl(url).then(function (list) {
+                // 並列でのリクエスト実行
+                return Promise.all(items.map(function (item_category) {
+                    return getUrl(url + item_category.id);
+                }));
+            });
+        }
         console.log("searchRestoが呼ばれた");
         //本体側からの呼び出し
         getFirstItem().then(function (item_category) {
+            alert(url);
             //本来やりたかった処理
             someProcess(item_category);
             alert("Success" + url);
-            _this.searchShops = _this.createShops(url);
-            navi.pushPage('testresult.html');
-            _this.createShops = function (url) {
-                var shops = [];
-                if (url.total_hit_count > 1) {
-                    for (var i = 0; i < url.rest.length; i++) {
-                        shops[i] = url.rest[i];
-                        shops[i].isLiked = this.isLiked(url.rest[i].id);
-                        if (typeof shops[i].image_url.shop_image1 == 'string') {
-                            shops[i].hasShopImage = true;
-                        }
-                        else {
-                            shops[i].hasShopImage = false;
-                        }
-                    }
-                }
-                else if (url.total_hit_count == 1) {
-                    shops[0] = url.rest;
-                    shops[0].isLiked = $scope.isLiked(url.rest.id);
-                    if (typeof shops[0].image_url.shop_image1 == 'string') {
-                        shops[0].hasShopImage = true;
-                    }
-                    else {
-                        shops[0].hasShopImage = false;
-                    }
-                }
-                return shops;
-            };
+            /*
+                      this.searchShops = this.createShops(url);
+                      navi.pushPage('testresult.html');
+            
+                      this.createShops =function(url){
+                          var shops = [];
+                          if(url.total_hit_count > 1){
+                              for(var i=0; i<url.rest.length; i++){
+                                  shops[i] = url.rest[i];
+                                  shops[i].isLiked = this.isLiked(url.rest[i].id);
+                                  if(typeof shops[i].image_url.shop_image1 == 'string'){
+                                      shops[i].hasShopImage = true;
+                                  }else{
+                                      shops[i].hasShopImage = false;
+                                  }
+                              }
+                          }else if(url.total_hit_count == 1){
+                              shops[0] = url.rest;
+                              shops[0].isLiked = $scope.isLiked(url.rest.id);
+                              if(typeof shops[0].image_url.shop_image1 == 'string'){
+                                  shops[0].hasShopImage = true;
+                              }else{
+                                  shops[0].hasShopImage = false;
+                              }
+                          }
+                          return shops;
+                      };*/
         })
             .then(null, function (e) {
             //エラー処理
