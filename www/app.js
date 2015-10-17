@@ -37,29 +37,6 @@ this.search = function () {
 var http = injector.get(Http);
 */
 exports.http = {
-    /*
-        navigator.geolocation.getCurrentPosition(
-        function(position){
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var range = '1';
-            http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-    
-    
-                .success(function(data, status, headers, config) {
-                    this.searchShops = this.createShops(data);
-                    navi.pushPage('result.html');
-                })
-                .error(function(data, status, headers, config) {
-                    alert('error');
-                });
-        },
-        function(error){
-            alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-        }
-    );
-    */
     get: function (url) {
         url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } };
         return getUrl(url);
@@ -85,37 +62,10 @@ function getUrl(url) {
         xhr.send();
     });
 }
-var OkpSchedule = (function () {
-    function OkpSchedule() {
-    }
-    return OkpSchedule;
-})();
+//成功した場合の処理
 function someProcess(item_category) {
     var _item_category = item_category;
     alert("結果は、" + _item_category);
-    /*
-        var shops = [];
-        if(data.total_hit_count > 1){
-            for(var i=0; i<data.rest.length; i++){
-                shops[i] = data.rest[i];
-                shops[i].isLiked = this.isLiked(data.rest[i].id);
-                if(typeof shops[i].image_url.shop_image1 == 'string'){
-                    shops[i].hasShopImage = true;
-                }else{
-                    shops[i].hasShopImage = false;
-                }
-            }
-        }else if(data.total_hit_count == 1){
-            shops[0] = data.rest;
-            shops[0].isLiked = this.isLiked(data.rest.id);
-            if(typeof shops[0].image_url.shop_image1 == 'string'){
-                shops[0].hasShopImage = true;
-            }else{
-                shops[0].hasShopImage = false;
-            }
-        }
-        return shops;
-        */
 }
 //Promiseによる非同期処理
 function getFirstItem() {
@@ -183,7 +133,7 @@ var SchedulePage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n    </ons-toolbar>\n\n\n<ons-list class=\"plan-list\">\n<div style=\"text-align:center;\">\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059</div>\n<ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n<ons-row>\n<ons-col width=\"80px\" class=\"plan-left\">\n<div class=\"plan-date\">{{ item.time }}</div>\n<div class=\"plan-duration\">{{ item.duration }}</div>\n</ons-col>\n\n<ons-col width=\"6px\" class=\"plan-center\">\n</ons-col>\n\n<ons-col class=\"plan-right\">\n<div class=\"plan-name\">{{ item.title }}</div>\n\n<div *ng-if=\"item.location\" class=\"plan-info\">\n<div>\n    <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n</div>\n</div>\n</ons-col>\n</ons-row>\n</ons-list-item>\n</ons-list>\n\n\n\n    <!--\n    <ons-list class=\"plan-list\">\n      <div style=\"text-align:center;\">\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059</div>\n      <ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n        <ons-row>\n          <ons-col width=\"80px\" class=\"plan-left\">\n            <div class=\"plan-date\">{{ item.time }}</div>\n            <div class=\"plan-duration\">{{ item.duration }}</div>\n          </ons-col>\n\n          <ons-col width=\"6px\" class=\"plan-center\">\n          </ons-col>\n\n          <ons-col class=\"plan-right\">\n            <div class=\"plan-name\">{{ item.title }}</div>\n\n            <div *ng-if=\"item.location\" class=\"plan-info\">\n              <div>\n                <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n              </div>\n            </div>\n          </ons-col>\n        </ons-row>\n      </ons-list-item>\n    </ons-list>\n    -->\n\n\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n    </ons-toolbar>\n\n\n<ons-list class=\"plan-list\">\n<div style=\"text-align:center;\">\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059</div>\n<ons-list-item (press)=\"schedule.remove(i)\" *ng-for=\"#item of schedule.items; #i = index;\" class=\"plan\">\n<ons-row>\n<ons-col width=\"80px\" class=\"plan-left\">\n<div class=\"plan-date\">{{ item.time }}</div>\n<div class=\"plan-duration\">{{ item.duration }}</div>\n</ons-col>\n\n<ons-col width=\"6px\" class=\"plan-center\">\n</ons-col>\n\n<ons-col class=\"plan-right\">\n<div class=\"plan-name\">{{ item.title }}</div>\n\n<div *ng-if=\"item.location\" class=\"plan-info\">\n<div>\n    <ons-icon icon=\"fa-map-marker\">\u73FE\u5728\u5730</ons-icon>&nbsp;{{ item.location }}\n</div>\n</div>\n</ons-col>\n</ons-row>\n</ons-list-item>\n</ons-list>\n\n\n\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [Schedule])
@@ -280,7 +230,7 @@ var AddItemPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <!--\n    <ons-list modifier=\"inset\" style=\"margin-top: 10px\">\n      <ons-list-item  >\n        <input #title (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Activity\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <input #location (keyup) type=\"text\" class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n      </ons-list-item>\n      <ons-list-item>\n        <select #time class=\"text-input text-input--transparent\" placeholder=\"Location\" style=\"width: 100%\">\n          <option *ng-for=\"#t of times\" [value]=\"t\">{{ t }}</option>\n        <select>\n      </ons-list-item>\n    </ons-list>\n    -->\n\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addActivity()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [angular2_1.ElementRef, Schedule])
@@ -296,7 +246,7 @@ var MyAppComponent = (function () {
             appInjector: [Schedule]
         }),
         angular2_1.View({
-            template: "\n\n\n<ons-page>\n<ons-toolbar>\n<div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n</ons-toolbar>\n\n\n<ons-tabbar animation=\"slide\">\n<ons-tab\nno-reload\npage=\"home.html\"\nactive=\"true\">\n<ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n\u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n</ons-button>\n</ons-tab>\n<ons-tab\nno-reload\npage=\"search.html\">\n<ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n\u63A2\u3059\uFF01\n</ons-button>\n</ons-tab>\n</ons-tabbar>\n\n</ons-page>\n\n\n  <!--\n    <ons-tabbar animation=\"slide\">\n      <ons-tab\n        no-reload\n        page=\"home.html\"\n        active=\"true\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n          \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n        </ons-button>\n      </ons-tab>\n      <ons-tab\n        no-reload\n        page=\"search.html\">\n        <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n         \u63A2\u3059\uFF01\n        </ons-button>\n      </ons-tab>\n    </ons-tabbar>\n    -->\n  "
+            template: "\n    <ons-page>\n      <ons-toolbar>\n        <div class=\"center\" style=\"font-size: 18px;font-weight:bold;background-color:#E65100;color:#fff\">\u304A\u304B\u3074\u306E\u98EF\u30ED\u30B0</div>\n      </ons-toolbar>\n      <ons-tabbar animation=\"slide\">\n        <ons-tab no-reload page=\"home.html\" active=\"true\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px;\">\n            \u30DB\u30FC\u30E0\u3067\u3084\u3093\u3059\n          </ons-button>\n        </ons-tab>\n        <ons-tab no-reload page=\"search.html\">\n          <ons-button modifier=\"large\" style=\"margin: 0 2px 0 2px;\">\n            \u63A2\u3059\uFF01\n          </ons-button>\n        </ons-tab>\n      </ons-tabbar>\n    </ons-page>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);
@@ -307,8 +257,7 @@ angular2_1.bootstrap(MyAppComponent).then(function (result) {
     var loader = injector.get(angular2_1.DynamicComponentLoader);
     var dict = {
         'home.html': SchedulePage,
-        'search.html': AddItemPage,
-        '_list.html': OkpSchedulePage
+        'search.html': AddItemPage
     };
     OnsTabElement.prototype._createPageElement = function (page, callback) {
         if (dict[page]) {
