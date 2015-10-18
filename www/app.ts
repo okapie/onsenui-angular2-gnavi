@@ -197,17 +197,42 @@ class meshiLogPage {
 //成功した場合の処理
       function someProcess(item_category) {
           var _item_category = item_category;
-          alert("結果は、" + _item_category);
+          alert("結果は、" + _item_category); //OK,OK,OK
+
+          this.search = function() {
+              navigator.geolocation.getCurrentPosition(
+                  function(position){
+                      var latitude = position.coords.latitude;
+                      var longitude = position.coords.longitude;
+                      var range = '1';
+                      http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+                          .success(function(data, status, headers, config) {
+                              this.searchShops = $scope.createShops(data);
+                              //navi.pushPage('result.html');
+                          })
+                          .error(function(data, status, headers, config) {
+                              alert('error');
+                          });
+                  },
+                  function(error){
+                      alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+                  }
+              );
+          };
 
       }
 
 //Promiseによる非同期処理
       function getFirstItem() {
-          let items = ["camera", "pc", "ps4"];
+          //let items = ["camera", "pc", "ps4"];
+
+          let items = [{keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}];
+
           return getUrl(url).then(list => {
               // 並列でのリクエスト実行
               return Promise.all(items.map(item_category => {
-                  return getUrl(url + item_category.id);
+                  return getUrl(url + item_category.keyid);
               }));
           });
       }
@@ -220,7 +245,7 @@ class meshiLogPage {
 
       alert(url);
         //本来やりたかった処理
-        someProcess(item_category);
+        someProcess(item_category.rest);
         alert("Success" + url);
 
 /*
