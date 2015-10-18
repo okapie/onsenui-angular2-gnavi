@@ -46,6 +46,7 @@ this.search = function() {
 /*
 var http = injector.get(Http);
 */
+
 export const http = {
     get: function(url) {
     url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
@@ -139,32 +140,11 @@ class homePage {
 class meshiLogPage {
   searchResto() {
 
-      this.search = function() {
-          navigator.geolocation.getCurrentPosition(
-              function(position){
-                  var latitude = position.coords.latitude;
-                  var longitude = position.coords.longitude;
-                  var range = '1';
-                  http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-                      .success(function(data, status, headers, config) {
-                          this.searchShops = this.createShops(data);
-                          navi.pushPage('result.html');
-                      })
-                      .error(function(data, status, headers, config) {
-                          alert('error');
-                      });
-              },
-              function(error){
-                  alert('code: '    + error.code    + '\n' +
-                  'message: ' + error.message + '\n');
-              }
-          );
-      };
-
 
       /*
        var http = injector.get(Http);
        */
+
       export const http = {
           get: function(url) {
               url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
@@ -172,121 +152,135 @@ class meshiLogPage {
           }
       }
 
+      alert("KITA");
+      navigator.geolocation.getCurrentPosition(
+          function(position) {
+              alert("position KITA");
+              var latitude = position.coords.latitude;
+              var longitude = position.coords.longitude;
+              var range = '1';
+              alert("latitude is" + latitude);
 
-
-      function getUrl(url) {
-          return new Promise((resolve, reject) => {
-              let xhr = new XMLHttpRequest();
-              xhr.open("GET", url);
-              xhr.onload = () => {
-                  if (xhr.status === 200) {
-                      resolve(xhr.statusText);
-                  } else {
-                      //(1)エラーの場合rejectを呼ぶ
-                      reject(new Error(xhr.statusText));
-                  }
-              };
-              xhr.onerror = () => {
-                  //(2)エラーの場合rejectを呼ぶ
-                  reject(new Error(xhr.statusText));
-              };
-              xhr.send();
-          });
-      }
+              function getUrl(url) {
+                  return new Promise((resolve, reject) => {
+                      let xhr = new XMLHttpRequest();
+                      xhr.open("GET", url);
+                      xhr.onload = () => {
+                          if (xhr.status === 200) {
+                              resolve(xhr.statusText);
+                          } else {
+                              //(1)エラーの場合rejectを呼ぶ
+                              reject(new Error(xhr.statusText));
+                          }
+                      };
+                      xhr.onerror = () => {
+                          //(2)エラーの場合rejectを呼ぶ
+                          reject(new Error(xhr.statusText));
+                      };
+                      xhr.send();
+                  });
+              }
 
 //成功した場合の処理
-      function someProcess(item_category) {
-          var _item_category = item_category;
-          alert("結果は、" + _item_category); //OK,OK,OK
+              function someProcess(item_category) {
+                  var _item_category = item_category;
+                  alert("結果は、" + _item_category); //OK,OK,OK
 
-          //this.search = function() {
-              alert("KITA");
-              navigator.geolocation.getCurrentPosition(
-                  function(position){
-                      alert("position KITA");
-                      var latitude = position.coords.latitude;
-                      var longitude = position.coords.longitude;
-                      var range = '1';
-                      alert("latitude is" + latitude);
+                  //this.search = function() {
 
-                      http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-                          .success(function(data, status, headers, config) {
-                              this.searchShops = $scope.createShops(data);
-                              //navi.pushPage('result.html');
-                              alert("data is " + data);
-                          })
-                          .error(function(data, status, headers, config) {
-                              alert('error');
-                          });
-                  },
-                  function(error){
-                      alert('code: '    + error.code    + '\n' +
-                      'message: ' + error.message + '\n');
-                  }
-              );
-          //};
+                  //};
 
-      }
+              }
 
 //Promiseによる非同期処理
-      function getFirstItem() {
-          //let items = ["camera", "pc", "ps4"];
+              function getFirstItem() {
+                  //let items = ["camera", "pc", "ps4"];
 
-          let items = [{keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}];
+                  /*
 
-          return getUrl(url).then(list => {
-              // 並列でのリクエスト実行
-              return Promise.all(items.map(item_category => {
-                  return getUrl(url + item_category.keyid);
-              }));
-          });
-      }
+                   let items = [{keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}];
+
+                   return getUrl(url).then(list => {
+                   // 並列でのリクエスト実行
+                   return Promise.all(items.map(item_category => {
+                   return getUrl(url + item_category.keyid);
+                   }));
+                   });
+                   */
 
 
-
-    console.log("searchRestoが呼ばれた");
-      //本体側からの呼び出し
-      getFirstItem().then(item_category => {
-
-      alert(url);
-        //本来やりたかった処理
-        someProcess(item_category.rest);
-        alert("Success" + url);
-
-/*
-          this.searchShops = this.createShops(url);
-          navi.pushPage('testresult.html');
-
-          this.createShops =function(url){
-              var shops = [];
-              if(url.total_hit_count > 1){
-                  for(var i=0; i<url.rest.length; i++){
-                      shops[i] = url.rest[i];
-                      shops[i].isLiked = this.isLiked(url.rest[i].id);
-                      if(typeof shops[i].image_url.shop_image1 == 'string'){
-                          shops[i].hasShopImage = true;
-                      }else{
-                          shops[i].hasShopImage = false;
+                  http.get(url, {
+                      params: {
+                          keyid: keyid,
+                          format: format,
+                          latitude: latitude,
+                          longitude: longitude,
+                          range: range
                       }
-                  }
-              }else if(url.total_hit_count == 1){
-                  shops[0] = url.rest;
-                  shops[0].isLiked = $scope.isLiked(url.rest.id);
-                  if(typeof shops[0].image_url.shop_image1 == 'string'){
-                      shops[0].hasShopImage = true;
-                  }else{
-                      shops[0].hasShopImage = false;
-                  }
+                  })
+                      .then(function (data, status, headers, config) {
+                          this.searchShops = $scope.createShops(data);
+                          //navi.pushPage('result.html');
+                          alert("data is " + data);
+                      })
+                      .then(function (data, status, headers, config) {
+                          alert('error');
+                      });
               }
-              return shops;
-          };*/
 
-      })
-      .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
-        //エラー処理
-        console.error(e);
-        alert("失敗");
-    });
+
+
+
+              console.log("searchRestoが呼ばれた");
+              //本体側からの呼び出し
+              getFirstItem().then(item_category => {
+
+                  alert(url);
+                  //本来やりたかった処理
+                  someProcess(item_category.rest);
+                  alert("Success" + url);
+
+                  /*
+                   this.searchShops = this.createShops(url);
+                   navi.pushPage('testresult.html');
+
+                   this.createShops =function(url){
+                   var shops = [];
+                   if(url.total_hit_count > 1){
+                   for(var i=0; i<url.rest.length; i++){
+                   shops[i] = url.rest[i];
+                   shops[i].isLiked = this.isLiked(url.rest[i].id);
+                   if(typeof shops[i].image_url.shop_image1 == 'string'){
+                   shops[i].hasShopImage = true;
+                   }else{
+                   shops[i].hasShopImage = false;
+                   }
+                   }
+                   }else if(url.total_hit_count == 1){
+                   shops[0] = url.rest;
+                   shops[0].isLiked = $scope.isLiked(url.rest.id);
+                   if(typeof shops[0].image_url.shop_image1 == 'string'){
+                   shops[0].hasShopImage = true;
+                   }else{
+                   shops[0].hasShopImage = false;
+                   }
+                   }
+                   return shops;
+                   };*/
+
+              })
+                  .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
+                      //エラー処理
+                      console.error(e);
+                      alert("失敗");
+                  });
+
+
+          } );
+
+
+
+
   }
 }
 
