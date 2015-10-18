@@ -164,24 +164,28 @@ var meshiLogPage = (function () {
         function someProcess(item_category) {
             var _item_category = item_category;
             alert("結果は、" + _item_category); //OK,OK,OK
-            this.search = function () {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    var range = '1';
-                    http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
-                        .success(function (data, status, headers, config) {
-                        this.searchShops = $scope.createShops(data);
-                        //navi.pushPage('result.html');
-                    })
-                        .error(function (data, status, headers, config) {
-                        alert('error');
-                    });
-                }, function (error) {
-                    alert('code: ' + error.code + '\n' +
-                        'message: ' + error.message + '\n');
+            //this.search = function() {
+            alert("KITA");
+            navigator.geolocation.getCurrentPosition(function (position) {
+                alert("position KITA");
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                var range = '1';
+                alert("latitude is" + latitude);
+                http.get(apiUrl, { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } })
+                    .success(function (data, status, headers, config) {
+                    this.searchShops = $scope.createShops(data);
+                    //navi.pushPage('result.html');
+                    alert("data is " + data);
+                })
+                    .error(function (data, status, headers, config) {
+                    alert('error');
                 });
-            };
+            }, function (error) {
+                alert('code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n');
+            });
+            //};
         }
         //Promiseによる非同期処理
         function getFirstItem() {

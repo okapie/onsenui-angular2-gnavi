@@ -199,16 +199,21 @@ class meshiLogPage {
           var _item_category = item_category;
           alert("結果は、" + _item_category); //OK,OK,OK
 
-          this.search = function() {
+          //this.search = function() {
+              alert("KITA");
               navigator.geolocation.getCurrentPosition(
                   function(position){
+                      alert("position KITA");
                       var latitude = position.coords.latitude;
                       var longitude = position.coords.longitude;
                       var range = '1';
+                      alert("latitude is" + latitude);
+
                       http.get(apiUrl, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
                           .success(function(data, status, headers, config) {
                               this.searchShops = $scope.createShops(data);
                               //navi.pushPage('result.html');
+                              alert("data is " + data);
                           })
                           .error(function(data, status, headers, config) {
                               alert('error');
@@ -219,7 +224,7 @@ class meshiLogPage {
                       'message: ' + error.message + '\n');
                   }
               );
-          };
+          //};
 
       }
 
