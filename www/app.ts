@@ -19,17 +19,17 @@ import {
   NgIf,
   Injector
 } from 'angular2/angular2';
-import {MockBackend, BaseRequestOptions, Http, HTTP_BINDINGS} from 'angular2/http'
-import {Injector,bind} from 'angular2/di'
+import {MockBackend, BaseRequestOptions, Http} from 'angular2/http';
+import {Injector, bind} from 'angular2/di';
 
 var injector = Injector.resolveAndCreate([
   BaseRequestOptions,
   MockBackend,
-  bind(Http).toFactory(
-    function(backend, defaultOptions) {
-      return new Http(backend, defaultOptions);
-    },
-  [MockBackend, BaseRequestOptions])
+    bind(Http).toFactory(
+        function(backend, defaultOptions) {
+            return new Http(backend, defaultOptions);
+        },
+        [MockBackend, BaseRequestOptions])
 ]);
 
 this.search = function() {
@@ -43,16 +43,9 @@ this.search = function() {
     );
 };
 
-/*
 var http = injector.get(Http);
-*/
 
-export const http = {
-    get: function(url) {
-    url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
-    return getUrl(url);
-  }
-}
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe((res:Response) => doSomething(res));
 
 class getHome {
   getRestoResult() {
@@ -144,13 +137,14 @@ class meshiLogPage {
       /*
        var http = injector.get(Http);
        */
-
-      export const http = {
+/*
+      var http = {
           get: function(url) {
               url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
-              return getUrl(url);
+              return url;
           }
       }
+      */
 
       alert("KITA");
       navigator.geolocation.getCurrentPosition(
@@ -208,16 +202,10 @@ class meshiLogPage {
                    });
                    */
 
+                   alert("http is " + http); //object object
 
-                  http.get(url, {
-                      params: {
-                          keyid: keyid,
-                          format: format,
-                          latitude: latitude,
-                          longitude: longitude,
-                          range: range
-                      }
-                  })
+
+                  http.get(url)
                       .then(function (data, status, headers, config) {
                           this.searchShops = $scope.createShops(data);
                           //navi.pushPage('result.html');

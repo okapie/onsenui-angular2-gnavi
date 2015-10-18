@@ -33,15 +33,8 @@ this.search = function () {
         range = '1';
     });
 };
-/*
-var http = injector.get(Http);
-*/
-exports.http = {
-    get: function (url) {
-        url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } };
-        return getUrl(url);
-    }
-};
+var http = injector.get(http_1.Http);
+http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe(function (res) { return doSomething(res); });
 var getHome = (function () {
     function getHome() {
     }
@@ -116,12 +109,14 @@ var meshiLogPage = (function () {
         /*
          var http = injector.get(Http);
          */
-        exports.http = {
-            get: function (url) {
-                url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', { params: { keyid: keyid, format: format, latitude: latitude, longitude: longitude, range: range } };
-                return getUrl(url);
-            }
-        };
+        /*
+              var http = {
+                  get: function(url) {
+                      url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
+                      return url;
+                  }
+              }
+              */
         alert("KITA");
         navigator.geolocation.getCurrentPosition(function (position) {
             alert("position KITA");
@@ -170,15 +165,8 @@ var meshiLogPage = (function () {
                  }));
                  });
                  */
-                http.get(url, {
-                    params: {
-                        keyid: keyid,
-                        format: format,
-                        latitude: latitude,
-                        longitude: longitude,
-                        range: range
-                    }
-                })
+                alert("http is " + http); //object object
+                http.get(url)
                     .then(function (data, status, headers, config) {
                     this.searchShops = $scope.createShops(data);
                     //navi.pushPage('result.html');
