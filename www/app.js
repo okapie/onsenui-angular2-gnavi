@@ -10,6 +10,8 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
+var keyid = '878b251d597e2d443b1e960d54591f00';
+var format = 'json';
 var urlPath;
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
@@ -31,7 +33,6 @@ this.search = function () {
 var http = injector.get(http_1.Http);
 /* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
 navigator.geolocation.getCurrentPosition(function (position) {
-    var _this = this;
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     var range = '1';
@@ -70,9 +71,9 @@ navigator.geolocation.getCurrentPosition(function (position) {
         var pushValue = recordValue.bind(null, []);
         return request.test1().then(pushValue);
     }
-    getFirstItem().then(function (data, status, headers, config) {
-        _this.searchShops = $scope.createShops(data);
-        alert("Success" + url);
+    getFirstItem().then(function (results, value) {
+        //this.searchShops = $scope.createShops(data);
+        alert("Success" + results);
     }).then(null, function (e) {
         console.error(e);
         alert("失敗");

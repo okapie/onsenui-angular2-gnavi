@@ -1,6 +1,8 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
+let keyid = '878b251d597e2d443b1e960d54591f00';
+let format = 'json';
 let urlPath;
 
 import {
@@ -83,9 +85,9 @@ navigator.geolocation.getCurrentPosition(
         return request.test1().then(pushValue);
     }
 
-    getFirstItem().then((data, status, headers, config) => {
-        this.searchShops = $scope.createShops(data);
-        alert("Success" + url);
+    getFirstItem().then((results, value) => {
+        //this.searchShops = $scope.createShops(data);
+        alert("Success" + results);
     }).then(null, e => {
         console.error(e);
         alert("失敗");
