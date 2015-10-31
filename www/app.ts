@@ -1,12 +1,12 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
-var url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/';
-var keyid = '878b251d597e2d443b1e960d54591f00';
-var format = 'json';
-var latitude;
-var longitude;
-var range;
+let keyid = '878b251d597e2d443b1e960d54591f00';
+let format = 'json';
+let latitude;
+let longitude;
+let range;
+let urlPath;
 
 import {
   Component,
@@ -22,7 +22,7 @@ import {
 import {MockBackend, BaseRequestOptions, Http} from 'angular2/http';
 import {Injector, bind} from 'angular2/di';
 
-var injector = Injector.resolveAndCreate([
+let injector = Injector.resolveAndCreate([
   BaseRequestOptions,
   MockBackend,
     bind(Http).toFactory(
@@ -39,38 +39,71 @@ this.search = function() {
             longitude = position.coords.longitude;
             range = '1';
         }
-
     );
 };
 
 var http = injector.get(Http);
 
-http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/').subscribe((res:Response) => doSomething(res));
+/* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
+function getUrl(url) {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                resolve(xhr.statusText);
+            } else {
+                reject(new Error(xhr.statusText));
+            }
+        };
+        xhr.onerror = () => {
+            reject(new Error(xhr.statusText));
+        };
+        xhr.send();
+    });
+}
 
+var request = {
+    test1: function getTest1() {
+        return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630/');
+    }
+};
+
+
+function getFirstItem() {
+    function recordValue(results, value) {
+        results.push(value);
+        console.log('results is ' + results);
+        urlPath = results;
+        console.log("urlPath is " + urlPath);
+        return results;
+    }
+    var pushValue = recordValue.bind(null, []);
+    return request.test1().then(pushValue);
+}
+
+getFirstItem().then((results, value) => {
+    alert("Success" + urlPath);
+}).then(null, e => {
+    console.error(e);
+    alert("失敗");
+
+});
+/* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
+
+navigator.geolocation.getCurrentPosition(
+    function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var range = '1';
+        alert("latitude is" + latitude);
+
+
+    });
+
+/* ホーム ******************************************************************************************************************/
 class getHome {
   getRestoResult() {
-  /*
-    this.search = function() {
-      navigator.geolocation.getCurrentPosition(
-        function(position){
-          var latitude = position.coords.latitude;
-          var longitude = position.coords.longitude;
-          var range = '1';
-          http.get('http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-            .success(function(data, status, headers, config) {
-              this.searchShops = this.createShops(data);
-              navi.pushPage('result.html');
-            })
-            .error(function(data, status, headers, config) {
-              alert('error');
-            });
-        },
-        function(error){
-          alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
-        }
-      );
-    };*/
     return JSON.parse(window.localStorage.getItem('gethome') || '[]');
   }
   _setItems(items) {
@@ -111,7 +144,9 @@ class homePage {
     this.gethome = gethome;
   }
 }
+/* END OF *** ホーム ********************************************************************************************************/
 
+/* サーチ ******************************************************************************************************************/
 @Component({
   selector: 'ons-page'
 })
@@ -132,145 +167,11 @@ class homePage {
 })
 class meshiLogPage {
   searchResto() {
-
-
-      /*
-       var http = injector.get(Http);
-       */
-/*
-      var http = {
-          get: function(url) {
-              url = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/', {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}};
-              return url;
-          }
-      }
-      */
-
-      alert("KITA");
-      navigator.geolocation.getCurrentPosition(
-          function(position) {
-              alert("position KITA");
-              var latitude = position.coords.latitude;
-              var longitude = position.coords.longitude;
-              var range = '1';
-              alert("latitude is" + latitude);
-
-              function getUrl(url) {
-                  return new Promise((resolve, reject) => {
-                      let xhr = new XMLHttpRequest();
-                      xhr.open("GET", url);
-                      xhr.onload = () => {
-                          if (xhr.status === 200) {
-                              resolve(xhr.statusText);
-                          } else {
-                              //(1)エラーの場合rejectを呼ぶ
-                              reject(new Error(xhr.statusText));
-                          }
-                      };
-                      xhr.onerror = () => {
-                          //(2)エラーの場合rejectを呼ぶ
-                          reject(new Error(xhr.statusText));
-                      };
-                      xhr.send();
-                  });
-              }
-
-//成功した場合の処理
-              function someProcess(item_category) {
-                  var _item_category = item_category;
-                  alert("結果は、" + _item_category); //OK,OK,OK
-
-                  //this.search = function() {
-
-                  //};
-
-              }
-
-//Promiseによる非同期処理
-              function getFirstItem() {
-                  //let items = ["camera", "pc", "ps4"];
-
-                  /*
-
-                   let items = [{keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}];
-
-                   return getUrl(url).then(list => {
-                   // 並列でのリクエスト実行
-                   return Promise.all(items.map(item_category => {
-                   return getUrl(url + item_category.keyid);
-                   }));
-                   });
-                   */
-
-                   alert("http is " + http); //object object
-
-
-                  http.get(url)
-                      .then(function (data, status, headers, config) {
-                          this.searchShops = $scope.createShops(data);
-                          //navi.pushPage('result.html');
-                          alert("data is " + data);
-                      })
-                      .then(function (data, status, headers, config) {
-                          alert('error');
-                      });
-              }
-
-
-
-
-              console.log("searchRestoが呼ばれた");
-              //本体側からの呼び出し
-              getFirstItem().then(item_category => {
-
-                  alert(url);
-                  //本来やりたかった処理
-                  someProcess(item_category.rest);
-                  alert("Success" + url);
-
-                  /*
-                   this.searchShops = this.createShops(url);
-                   navi.pushPage('testresult.html');
-
-                   this.createShops =function(url){
-                   var shops = [];
-                   if(url.total_hit_count > 1){
-                   for(var i=0; i<url.rest.length; i++){
-                   shops[i] = url.rest[i];
-                   shops[i].isLiked = this.isLiked(url.rest[i].id);
-                   if(typeof shops[i].image_url.shop_image1 == 'string'){
-                   shops[i].hasShopImage = true;
-                   }else{
-                   shops[i].hasShopImage = false;
-                   }
-                   }
-                   }else if(url.total_hit_count == 1){
-                   shops[0] = url.rest;
-                   shops[0].isLiked = $scope.isLiked(url.rest.id);
-                   if(typeof shops[0].image_url.shop_image1 == 'string'){
-                   shops[0].hasShopImage = true;
-                   }else{
-                   shops[0].hasShopImage = false;
-                   }
-                   }
-                   return shops;
-                   };*/
-
-              })
-                  .then(null, e => { //エラーハンドリング用のコールバックをthenの第二引数に登録
-                      //エラー処理
-                      console.error(e);
-                      alert("失敗");
-                  });
-
-
-          } );
-
-
-
+    alert("urlPathを調理します" + urlPath);
 
   }
 }
+
 
 @Component({
   selector: 'okp-app',
