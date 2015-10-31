@@ -1,11 +1,6 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
-let keyid = '878b251d597e2d443b1e960d54591f00';
-let format = 'json';
-let latitude;
-let longitude;
-let range;
 let urlPath;
 
 import {
@@ -50,12 +45,12 @@ navigator.geolocation.getCurrentPosition(
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
         var range = '1';
+        let param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
 
         function getUrl(url) {
             return new Promise((resolve, reject) => {
                 let xhr = new XMLHttpRequest();
-                let param = 'keyid=keyid&format=format&latitude=latitude&longitude=longitude&range=range';
-                xhr.open("GET", url+'?'+param, true);
+                xhr.open("GET", url, true);
                 xhr.onload = () => {
                     if (xhr.status === 200) {
                         resolve(xhr.statusText);
@@ -72,10 +67,9 @@ navigator.geolocation.getCurrentPosition(
 
     var request = {
         test1: function getTest1() {
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630' + '?' + param);
         }
     };
-
 
     function getFirstItem() {
         function recordValue(results, value) {
@@ -89,25 +83,15 @@ navigator.geolocation.getCurrentPosition(
         return request.test1().then(pushValue);
     }
 
-    getFirstItem().then((results, value) => {
-        alert("Success" + results);
+    getFirstItem().then((data, status, headers, config) => {
+        this.searchShops = $scope.createShops(data);
+        alert("Success" + url);
     }).then(null, e => {
         console.error(e);
         alert("失敗");
-
     });
 });
 /* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
-
-navigator.geolocation.getCurrentPosition(
-    function(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        var range = '1';
-        alert("latitude is" + latitude);
-
-
-    });
 
 /* ホーム ******************************************************************************************************************/
 class getHome {

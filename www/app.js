@@ -10,11 +10,6 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 /// <reference path="./typings/angular2/angular2.d.ts" />
-var keyid = '878b251d597e2d443b1e960d54591f00';
-var format = 'json';
-var latitude;
-var longitude;
-var range;
 var urlPath;
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
@@ -36,14 +31,15 @@ this.search = function () {
 var http = injector.get(http_1.Http);
 /* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
 navigator.geolocation.getCurrentPosition(function (position) {
+    var _this = this;
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     var range = '1';
+    var param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
     function getUrl(url) {
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
-            var param = 'keyid=keyid&format=format&latitude=latitude&longitude=longitude&range=range';
-            xhr.open("GET", url + '?' + param, true);
+            xhr.open("GET", url, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     resolve(xhr.statusText);
@@ -60,7 +56,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
     }
     var request = {
         test1: function getTest1() {
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630' + '?' + param);
         }
     };
     function getFirstItem() {
@@ -74,20 +70,15 @@ navigator.geolocation.getCurrentPosition(function (position) {
         var pushValue = recordValue.bind(null, []);
         return request.test1().then(pushValue);
     }
-    getFirstItem().then(function (results, value) {
-        alert("Success" + results);
+    getFirstItem().then(function (data, status, headers, config) {
+        _this.searchShops = $scope.createShops(data);
+        alert("Success" + url);
     }).then(null, function (e) {
         console.error(e);
         alert("失敗");
     });
 });
 /* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
-navigator.geolocation.getCurrentPosition(function (position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-    var range = '1';
-    alert("latitude is" + latitude);
-});
 /* ホーム ******************************************************************************************************************/
 var getHome = (function () {
     function getHome() {
