@@ -35,45 +35,51 @@ this.search = function () {
 };
 var http = injector.get(http_1.Http);
 /* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
-function getUrl(url) {
-    return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                resolve(xhr.statusText);
-            }
-            else {
+navigator.geolocation.getCurrentPosition(function (position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    var range = '1';
+    function getUrl(url) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            var param = 'keyid=keyid&format=format&latitude=latitude&longitude=longitude&range=range';
+            xhr.open("GET", url + '?' + param, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    resolve(xhr.statusText);
+                }
+                else {
+                    reject(new Error(xhr.statusText));
+                }
+            };
+            xhr.onerror = function () {
                 reject(new Error(xhr.statusText));
-            }
-        };
-        xhr.onerror = function () {
-            reject(new Error(xhr.statusText));
-        };
-        xhr.send();
+            };
+            xhr.send();
+        });
+    }
+    var request = {
+        test1: function getTest1() {
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
+        }
+    };
+    function getFirstItem() {
+        function recordValue(results, value) {
+            results.push(value);
+            console.log('results is ' + results);
+            urlPath = results;
+            console.log("urlPath is " + urlPath);
+            return results;
+        }
+        var pushValue = recordValue.bind(null, []);
+        return request.test1().then(pushValue);
+    }
+    getFirstItem().then(function (results, value) {
+        alert("Success" + results);
+    }).then(null, function (e) {
+        console.error(e);
+        alert("失敗");
     });
-}
-var request = {
-    test1: function getTest1() {
-        return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630/');
-    }
-};
-function getFirstItem() {
-    function recordValue(results, value) {
-        results.push(value);
-        console.log('results is ' + results);
-        urlPath = results;
-        console.log("urlPath is " + urlPath);
-        return results;
-    }
-    var pushValue = recordValue.bind(null, []);
-    return request.test1().then(pushValue);
-}
-getFirstItem().then(function (results, value) {
-    alert("Success" + urlPath);
-}).then(null, function (e) {
-    console.error(e);
-    alert("失敗");
 });
 /* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
 navigator.geolocation.getCurrentPosition(function (position) {
