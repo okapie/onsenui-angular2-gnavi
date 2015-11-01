@@ -36,7 +36,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     var range = '1';
-    var param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
+    //let param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
     function getUrl(url) {
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
@@ -57,7 +57,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
     }
     var request = {
         test1: function getTest1() {
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630' + '?' + param);
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?param' + keyid + '&' + format + '&' + latitude + '&' + longitude + '&' + range);
         }
     };
     function getFirstItem() {
@@ -133,6 +133,15 @@ var meshiLogPage = (function () {
     }
     meshiLogPage.prototype.searchResto = function () {
         alert("urlPathを調理します" + urlPath);
+        http.get(url)
+            .then(function (data, status, headers, config) {
+            $scope.searchShops = $scope.createShops(data);
+            alert('data is' + data);
+            //navi.pushPage('result.html');
+        })
+            .then(function (data, status, headers, config) {
+            alert('error');
+        });
     };
     meshiLogPage = __decorate([
         angular2_1.Component({

@@ -1,0 +1,20 @@
+{
+  "name": "onsenui-angular2-gnavi",
+  "version": "0.0.0",
+  "description": "Okapie Meshilog App",
+  "scripts": {
+    "start": "npm run build:js & npm run serve",
+    "build": "npm run build:js & npm run serve",
+    "build:js": "tsc --watch -m commonjs -t es5 --emitDecoratorMetadata app/app.ts",
+    "serve": "gulp webserver"
+  },
+  "author": "okapie",
+  "license": "CC",
+  "devDependencies": {
+    "gulp:": "^3.9.0",
+    "gulp-webserver": "^0.9.1"
+  },
+  "dependencies": {
+    "gulp": "^3.9.0"
+  }
+}
