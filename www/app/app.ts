@@ -151,15 +151,45 @@ class homePage {
       <div class="center">探すよん</div>
     </ons-toolbar>
     <div style="padding: 10px 9px">
-      <ons-button (click)="searchResto()" modifier="large" style="margin: 0 auto;">
-        現在地から探す
-      </ons-button>
+      <form ng-submit="create()">
+        <input type="text" ng-model="vm.newTodo" placeholder="ToDo名を入力">
+        <input type="submit" type="button" value="新規作成">
+        <ons-button (click)="searchResto()" modifier="large" style="margin: 0 auto;">
+
+          現在地から探す
+        </ons-button>
+        <button (click)="addTodo(todotext.value)">Add Todo</button>
+      </form>
+        <ul>
+            <li *ng-for="#todo of todos">
+        {{ todo }}
+        </li>
+        </ul>
     </div>
   </ons-page>
   `,
   directives: [NgFor]
 })
 class meshiLogPage {
+    constructor() {
+        this.todos = urlPath;
+    }
+    addTodo(todo: string) {
+        this.todos.push(todo);
+    }
+
+    doneTyping($event) {
+        if($event.which === 13) {
+            this.addTodo($event.target.value);
+            $event.target.value = null;
+        }
+    }
+
+  create() {
+      this.todos.push(self.newTodo);
+      this.newTodo = '';
+  }
+
   searchResto() {
       http.get(urlPath).then(function(data, status, headers, config) {
           this.searchShops = this.createShops(data);
