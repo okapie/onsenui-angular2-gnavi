@@ -43,10 +43,10 @@ navigator.geolocation.getCurrentPosition(function (position) {
             xhr.open("GET", url, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    resolve(xhr.statusText);
+                    resolve(xhr.responseText);
                 }
                 else {
-                    reject(new Error(xhr.statusText));
+                    reject(new Error(xhr.statusText), xhr.response);
                 }
             };
             xhr.onerror = function () {
@@ -58,7 +58,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
     var request = {
         test1: function getTest1() {
             //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?param' + keyid + '&' + format + '&' + latitude + '&' + longitude + '&' + range);
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range);
         }
     };
     function getFirstItem() {
@@ -73,7 +73,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
     getFirstItem().then(function (results, value) {
         //this.searchShops = $scope.createShops(data);
         //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-        alert("ゲット成功");
+        alert("ゲット成功" + results);
     }).then(null, function (e) {
         console.error(e);
         alert("失敗");
@@ -132,17 +132,14 @@ var meshiLogPage = (function () {
     function meshiLogPage() {
     }
     meshiLogPage.prototype.searchResto = function () {
-        alert("urlPathを調理します" + urlPath);
-        /*
-          http.get(url)
-              .then(function(data, status, headers, config) {
-                  $scope.searchShops = $scope.createShops(data);
-                  alert('data is' + data);
-                  //navi.pushPage('result.html');
-              })
-              .then(function(data, status, headers, config) {
-                  alert('error');
-              });*/
+        http.get(urlPath).then(function (data, status, headers, config) {
+            this.searchShops = this.createShops(data);
+            navi.pushPage('result.html');
+            alert("urlPathを調理します");
+        })
+            .then(function (data, status, headers, config) {
+            alert('error');
+        });
     };
     meshiLogPage = __decorate([
         angular2_1.Component({
