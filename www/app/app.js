@@ -57,15 +57,14 @@ navigator.geolocation.getCurrentPosition(function (position) {
     }
     var request = {
         test1: function getTest1() {
+            //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
             return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?param' + keyid + '&' + format + '&' + latitude + '&' + longitude + '&' + range);
         }
     };
     function getFirstItem() {
         function recordValue(results, value) {
             results.push(value);
-            console.log('results is ' + results);
             urlPath = results;
-            console.log("urlPath is " + urlPath);
             return results;
         }
         var pushValue = recordValue.bind(null, []);
@@ -73,7 +72,8 @@ navigator.geolocation.getCurrentPosition(function (position) {
     }
     getFirstItem().then(function (results, value) {
         //this.searchShops = $scope.createShops(data);
-        alert("Success" + results);
+        //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+        alert("ゲット成功");
     }).then(null, function (e) {
         console.error(e);
         alert("失敗");
@@ -133,15 +133,16 @@ var meshiLogPage = (function () {
     }
     meshiLogPage.prototype.searchResto = function () {
         alert("urlPathを調理します" + urlPath);
-        http.get(url)
-            .then(function (data, status, headers, config) {
-            $scope.searchShops = $scope.createShops(data);
-            alert('data is' + data);
-            //navi.pushPage('result.html');
-        })
-            .then(function (data, status, headers, config) {
-            alert('error');
-        });
+        /*
+          http.get(url)
+              .then(function(data, status, headers, config) {
+                  $scope.searchShops = $scope.createShops(data);
+                  alert('data is' + data);
+                  //navi.pushPage('result.html');
+              })
+              .then(function(data, status, headers, config) {
+                  alert('error');
+              });*/
     };
     meshiLogPage = __decorate([
         angular2_1.Component({

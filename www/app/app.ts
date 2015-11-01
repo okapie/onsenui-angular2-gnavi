@@ -69,6 +69,7 @@ navigator.geolocation.getCurrentPosition(
 
     var request = {
         test1: function getTest1() {
+            //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
             return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?param' + keyid + '&' + format + '&' + latitude + '&' + longitude + '&' + range);
         }
     };
@@ -76,9 +77,7 @@ navigator.geolocation.getCurrentPosition(
     function getFirstItem() {
         function recordValue(results, value) {
             results.push(value);
-            console.log('results is ' + results);
             urlPath = results;
-            console.log("urlPath is " + urlPath);
             return results;
         }
         var pushValue = recordValue.bind(null, []);
@@ -87,7 +86,8 @@ navigator.geolocation.getCurrentPosition(
 
     getFirstItem().then((results, value) => {
         //this.searchShops = $scope.createShops(data);
-        alert("Success" + results);
+        //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+        alert("ゲット成功");
     }).then(null, e => {
         console.error(e);
         alert("失敗");
@@ -162,6 +162,7 @@ class homePage {
 class meshiLogPage {
   searchResto() {
     alert("urlPathを調理します" + urlPath);
+    /*
       http.get(url)
           .then(function(data, status, headers, config) {
               $scope.searchShops = $scope.createShops(data);
@@ -170,7 +171,7 @@ class meshiLogPage {
           })
           .then(function(data, status, headers, config) {
               alert('error');
-          });
+          });*/
 
   }
 }
