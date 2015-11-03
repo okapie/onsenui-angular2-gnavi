@@ -66,7 +66,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
             results.push(value);
             urlPath = results;
             Object.keys(value).forEach(function (element) {
-                results.push(value[element].total_hit_count);
+                results.push(value[element]);
             });
             return results;
         }
@@ -78,7 +78,20 @@ navigator.geolocation.getCurrentPosition(function (position) {
         //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
         //alert("ゲット成功" + results);
         //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
-        alert("ゲット成功" + results);
+        //alert(results.rest[0].id + ' ' + results.rest[0].name);
+        alert(JSON.stringify(results));
+        /*
+        if ( results.total_hit_count > 0 ) {
+            var res = '';
+            alert( results.total_hit_count + '件の結果が見つかりました。\n' );
+            for ( var i in results.rest ){
+                res += results.rest[i].id + ' ' + results.rest[i].name + ' ' + results.rest[i].access.line + ' ' + results.rest[i].access.station + ' ' + results.rest[i].access.walk + '分\n';
+            }
+            alert(res);
+        } else {
+            alert( '検索結果が見つかりませんでした。' );
+        }
+        */
     }).then(null, function (e) {
         console.error(e);
         alert("失敗");
