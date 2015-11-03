@@ -141,10 +141,6 @@ var meshiLogPage = (function () {
             $event.target.value = null;
         }
     };
-    meshiLogPage.prototype.create = function () {
-        this.todos.push(self.newTodo);
-        this.newTodo = '';
-    };
     meshiLogPage.prototype.searchResto = function () {
         http.get(urlPath).then(function (data, status, headers, config) {
             this.searchShops = this.createShops(data);
@@ -160,7 +156,7 @@ var meshiLogPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n      <form ng-submit=\"create()\">\n        <input type=\"text\" ng-model=\"vm.newTodo\" placeholder=\"ToDo\u540D\u3092\u5165\u529B\">\n        <input type=\"submit\" type=\"button\" value=\"\u65B0\u898F\u4F5C\u6210\">\n        <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <button (click)=\"addTodo(todotext.value)\">Add Todo</button>\n      </form>\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n\n        <!--<input type=\"text\" ng-model=\"vm.newTodo\" placeholder=\"ToDo\u540D\u3092\u5165\u529B\">\n        <input type=\"submit\" type=\"button\" value=\"\u65B0\u898F\u4F5C\u6210\">-->\n        <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <button (click)=\"addTodo(todotext.value)\">Add Todo</button>\n\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])
