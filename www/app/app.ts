@@ -94,18 +94,22 @@ navigator.geolocation.getCurrentPosition(
         //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
         //alert(results.rest[0].id + ' ' + results.rest[0].name);
         alert(JSON.stringify(results[0].rest[0].name));
-        /*
-        if ( results.total_hit_count > 0 ) {
-            var res = '';
-            alert( results.total_hit_count + '件の結果が見つかりました。\n' );
-            for ( var i in results.rest ){
-                res += results.rest[i].id + ' ' + results.rest[i].name + ' ' + results.rest[i].access.line + ' ' + results.rest[i].access.station + ' ' + results.rest[i].access.walk + '分\n';
+        alert(JSON.stringify(results[0].rest[1].name));
+        alert(JSON.stringify(results[0].rest[2].name));
+        alert(JSON.stringify(results[0].rest[3].name));
+        alert(JSON.stringify(results[0].rest[4].name));
+        alert(results[0].rest.length);
+
+        if ( results[0].rest.length > 0 ) {
+            var res;
+            for ( var i in results[0].rest ){
+                res += results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n';
+
             }
             alert(res);
         } else {
             alert( '検索結果が見つかりませんでした。' );
         }
-        */
 
     }).then(null, e => {
         console.error(e);
