@@ -70,7 +70,7 @@ navigator.geolocation.getCurrentPosition(
     var request = {
         test1: function getTest1() {
             //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range);
+            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range).then(JSON.parse);
         }
     };
 
@@ -78,6 +78,9 @@ navigator.geolocation.getCurrentPosition(
         function recordValue(results, value) {
             results.push(value);
             urlPath = results;
+            Object.keys(value).forEach(function(element){
+                results.push(value[element].total_hit_count);
+            });
             return results;
         }
         var pushValue = recordValue.bind(null, []);
@@ -87,7 +90,10 @@ navigator.geolocation.getCurrentPosition(
     getFirstItem().then((results, value) => {
         //this.searchShops = $scope.createShops(data);
         //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
+        //alert("ゲット成功" + results);
+        //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
         alert("ゲット成功" + results);
+
     }).then(null, e => {
         console.error(e);
         alert("失敗");
