@@ -93,7 +93,7 @@ navigator.geolocation.getCurrentPosition(
         //alert("ゲット成功" + results);
         //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
         //alert(results.rest[0].id + ' ' + results.rest[0].name);
-        alert(JSON.stringify(results));
+        alert(JSON.stringify(results[0].rest[0].name));
         /*
         if ( results.total_hit_count > 0 ) {
             var res = '';
