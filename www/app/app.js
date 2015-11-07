@@ -14,29 +14,10 @@ var keyid = '878b251d597e2d443b1e960d54591f00';
 var format = 'json';
 var urlPath = [];
 var angular2_1 = require('angular2/angular2');
-var http_1 = require('angular2/http');
-var di_1 = require('angular2/di');
-var injector = angular2_1.Injector.resolveAndCreate([
-    http_1.BaseRequestOptions,
-    http_1.MockBackend,
-    di_1.bind(http_1.Http).toFactory(function (backend, defaultOptions) {
-        return new http_1.Http(backend, defaultOptions);
-    }, [http_1.MockBackend, http_1.BaseRequestOptions])
-]);
-this.search = function () {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        range = '1';
-    });
-};
-var http = injector.get(http_1.Http);
-/* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
 navigator.geolocation.getCurrentPosition(function (position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
     var range = '1';
-    //let param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
     function getUrl(url) {
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
@@ -57,15 +38,12 @@ navigator.geolocation.getCurrentPosition(function (position) {
     }
     var request = {
         test1: function getTest1() {
-            //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
             return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range).then(JSON.parse);
         }
     };
     function getFirstItem() {
         function recordValue(results, value) {
             results.push(value);
-            //urlPath = results;
-            //urlPath = JSON.stringify(results[0].rest[0].name);
             Object.keys(value).forEach(function (element) {
                 results.push(value[element]);
             });
@@ -75,35 +53,19 @@ navigator.geolocation.getCurrentPosition(function (position) {
         return request.test1().then(pushValue);
     }
     getFirstItem().then(function (results, value) {
-        //this.searchShops = $scope.createShops(data);
-        //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-        //alert("ゲット成功" + results);
-        //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
-        //alert(results.rest[0].id + ' ' + results.rest[0].name);
-        /*
-        alert(JSON.stringify(results[0].rest[0].name));
-        alert(JSON.stringify(results[0].rest[1].name));
-        alert(JSON.stringify(results[0].rest[2].name));
-        alert(JSON.stringify(results[0].rest[3].name));
-        alert(JSON.stringify(results[0].rest[4].name));
-        alert(results[0].rest.length);
-        */
         if (results[0].rest.length > 0) {
-            var res;
             for (var i in results[0].rest) {
                 urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
             }
         }
         else {
-            alert('検索結果が見つかりませんでした。');
+            alert('Not found');
         }
     }).then(null, function (e) {
         console.error(e);
-        alert("失敗");
+        alert('Error');
     });
 });
-/* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
-/* ホーム ******************************************************************************************************************/
 var getHome = (function () {
     function getHome() {
     }
@@ -149,8 +111,6 @@ var homePage = (function () {
     ], homePage);
     return homePage;
 })();
-/* END OF *** ホーム ********************************************************************************************************/
-/* サーチ ******************************************************************************************************************/
 var meshiLogPage = (function () {
     function meshiLogPage() {
         this.todos = urlPath;
@@ -164,22 +124,12 @@ var meshiLogPage = (function () {
             $event.target.value = null;
         }
     };
-    meshiLogPage.prototype.searchResto = function () {
-        http.get(urlPath).then(function (data, status, headers, config) {
-            this.searchShops = this.createShops(data);
-            navi.pushPage('result.html');
-            alert("urlPathを調理します");
-        })
-            .then(function (data, status, headers, config) {
-            alert('error');
-        });
-    };
     meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <ons-toolbar>\n      <div class=\"center\">\u63A2\u3059\u3088\u3093</div>\n    </ons-toolbar>\n    <div style=\"padding: 10px 9px\">\n\n        <!--<input type=\"text\" ng-model=\"vm.newTodo\" placeholder=\"ToDo\u540D\u3092\u5165\u529B\">\n        <input type=\"submit\" type=\"button\" value=\"\u65B0\u898F\u4F5C\u6210\">-->\n        <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <button (click)=\"addTodo(todotext.value)\">Add Todo</button>\n\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n        <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <button (click)=\"addTodo(todotext.value)\">Add Todo</button>\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])

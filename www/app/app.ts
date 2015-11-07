@@ -1,8 +1,8 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
 declare var OnsTabElement: {prototype: {_createPageElement: Function}};
 declare var ons: any;
-let keyid = '878b251d597e2d443b1e960d54591f00';
-let format = 'json';
+const keyid = '878b251d597e2d443b1e960d54591f00';
+const format = 'json';
 let urlPath = [];
 
 import {
@@ -13,41 +13,15 @@ import {
   ElementRef,
   ViewRef,
   NgFor,
-  NgIf,
-  Injector
+  NgIf
 } from 'angular2/angular2';
-import {MockBackend, BaseRequestOptions, Http} from 'angular2/http';
 import {Injector, bind} from 'angular2/di';
 
-let injector = Injector.resolveAndCreate([
-  BaseRequestOptions,
-  MockBackend,
-    bind(Http).toFactory(
-        function(backend, defaultOptions) {
-            return new Http(backend, defaultOptions);
-        },
-        [MockBackend, BaseRequestOptions])
-]);
-
-this.search = function() {
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            range = '1';
-        }
-    );
-};
-
-var http = injector.get(Http);
-
-/* XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う ******************************************************************/
 navigator.geolocation.getCurrentPosition(
     function(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        var range = '1';
-        //let param = 'keyid=878b251d597e2d443b1e960d54591f00&format=json&latitude=latitude&longitude=longitude&range=range';
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let range = '1';
 
         function getUrl(url) {
             return new Promise((resolve, reject) => {
@@ -67,9 +41,8 @@ navigator.geolocation.getCurrentPosition(
             });
         }
 
-    var request = {
+    let request = {
         test1: function getTest1() {
-            //return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630');
             return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range).then(JSON.parse);
         }
     };
@@ -77,8 +50,6 @@ navigator.geolocation.getCurrentPosition(
     function getFirstItem() {
         function recordValue(results, value) {
             results.push(value);
-            //urlPath = results;
-            //urlPath = JSON.stringify(results[0].rest[0].name);
             Object.keys(value).forEach(function(element){
                 results.push(value[element]);
             });
@@ -89,41 +60,19 @@ navigator.geolocation.getCurrentPosition(
     }
 
     getFirstItem().then((results, value) => {
-        //this.searchShops = $scope.createShops(data);
-        //http.get(url, {params: {keyid: keyid, format: format, latitude:latitude, longitude:longitude, range:range}})
-        //alert("ゲット成功" + results);
-        //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
-        //alert(results.rest[0].id + ' ' + results.rest[0].name);
-
-        /*
-        alert(JSON.stringify(results[0].rest[0].name));
-        alert(JSON.stringify(results[0].rest[1].name));
-        alert(JSON.stringify(results[0].rest[2].name));
-        alert(JSON.stringify(results[0].rest[3].name));
-        alert(JSON.stringify(results[0].rest[4].name));
-        alert(results[0].rest.length);
-        */
-
         if ( results[0].rest.length > 0 ) {
-            var res;
             for ( var i in results[0].rest ){
                 urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
-
             }
-            //alert(res);
-            //urlPath.push(res);
         } else {
-            alert( '検索結果が見つかりませんでした。' );
+            alert('Not found');
         }
-
     }).then(null, e => {
         console.error(e);
-        alert("失敗");
+        alert('Error');
     });
 });
-/* END OF *** XHRを叩いてリクエスト => PromiseでURL取得の非同期処理を行う *******************************************************/
 
-/* ホーム ******************************************************************************************************************/
 class getHome {
   getRestoResult() {
     return JSON.parse(window.localStorage.getItem('gethome') || '[]');
@@ -166,28 +115,18 @@ class homePage {
     this.gethome = gethome;
   }
 }
-/* END OF *** ホーム ********************************************************************************************************/
 
-/* サーチ ******************************************************************************************************************/
 @Component({
   selector: 'ons-page'
 })
 @View({
   template: `
   <ons-page>
-    <ons-toolbar>
-      <div class="center">探すよん</div>
-    </ons-toolbar>
     <div style="padding: 10px 9px">
-
-        <!--<input type="text" ng-model="vm.newTodo" placeholder="ToDo名を入力">
-        <input type="submit" type="button" value="新規作成">-->
         <ons-button (click)="searchResto()" modifier="large" style="margin: 0 auto;">
-
           現在地から探す
         </ons-button>
         <button (click)="addTodo(todotext.value)">Add Todo</button>
-
         <ul>
             <li *ng-for="#todo of todos">
         {{ todo }}
@@ -212,19 +151,7 @@ class meshiLogPage {
             $event.target.value = null;
         }
     }
-
-  searchResto() {
-      http.get(urlPath).then(function(data, status, headers, config) {
-          this.searchShops = this.createShops(data);
-          navi.pushPage('result.html');
-          alert("urlPathを調理します");
-      })
-          .then(function(data, status, headers, config) {
-              alert('error');
-          });
-  }
 }
-
 
 @Component({
   selector: 'okp-app',
