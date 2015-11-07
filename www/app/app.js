@@ -12,7 +12,7 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 /// <reference path="./typings/angular2/angular2.d.ts" />
 var keyid = '878b251d597e2d443b1e960d54591f00';
 var format = 'json';
-var urlPath;
+var urlPath = [];
 var angular2_1 = require('angular2/angular2');
 var http_1 = require('angular2/http');
 var di_1 = require('angular2/di');
@@ -64,9 +64,11 @@ navigator.geolocation.getCurrentPosition(function (position) {
     function getFirstItem() {
         function recordValue(results, value) {
             results.push(value);
-            urlPath = results;
+            //urlPath = results;
+            //urlPath = JSON.stringify(results[0].rest[0].name);
             Object.keys(value).forEach(function (element) {
                 results.push(value[element]);
+                urlPath.push(results[0].rest[0].name);
             });
             return results;
         }
@@ -79,12 +81,14 @@ navigator.geolocation.getCurrentPosition(function (position) {
         //alert("ゲット成功" + results);
         //alert( results.total_hit_count + '件の結果が見つかりました。\n' );
         //alert(results.rest[0].id + ' ' + results.rest[0].name);
+        /*
         alert(JSON.stringify(results[0].rest[0].name));
         alert(JSON.stringify(results[0].rest[1].name));
         alert(JSON.stringify(results[0].rest[2].name));
         alert(JSON.stringify(results[0].rest[3].name));
         alert(JSON.stringify(results[0].rest[4].name));
         alert(results[0].rest.length);
+        */
         if (results[0].rest.length > 0) {
             var res;
             for (var i in results[0].rest) {
