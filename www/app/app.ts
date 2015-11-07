@@ -81,7 +81,6 @@ navigator.geolocation.getCurrentPosition(
             //urlPath = JSON.stringify(results[0].rest[0].name);
             Object.keys(value).forEach(function(element){
                 results.push(value[element]);
-                urlPath.push(results[0].rest[0].name);
             });
             return results;
         }
@@ -108,10 +107,11 @@ navigator.geolocation.getCurrentPosition(
         if ( results[0].rest.length > 0 ) {
             var res;
             for ( var i in results[0].rest ){
-                res += results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n';
+                urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
 
             }
-            alert(res);
+            //alert(res);
+            //urlPath.push(res);
         } else {
             alert( '検索結果が見つかりませんでした。' );
         }
