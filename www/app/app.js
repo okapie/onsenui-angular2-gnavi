@@ -69,30 +69,6 @@ navigator.geolocation.getCurrentPosition(function (position) {
 var getHome = (function () {
     function getHome() {
     }
-    getHome.prototype.getRestoResult = function () {
-        return JSON.parse(window.localStorage.getItem('gethome') || '[]');
-    };
-    getHome.prototype._setItems = function (items) {
-        window.localStorage.setItem('gethome', JSON.stringify(items));
-    };
-    getHome.prototype.add = function (item) {
-        var items = this.getRestoResult();
-        items.push(item);
-        items.sort(function (a, b) { return parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')); });
-        this._setItems(items);
-    };
-    getHome.prototype.remove = function (idx) {
-        var items = this.getRestoResult();
-        items.splice(idx, 1);
-        this._setItems(items);
-    };
-    Object.defineProperty(getHome.prototype, "items", {
-        get: function () {
-            return this.getRestoResult();
-        },
-        enumerable: true,
-        configurable: true
-    });
     return getHome;
 })();
 var homePage = (function () {
@@ -129,7 +105,7 @@ var meshiLogPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n        <ons-button (click)=\"searchResto()\" modifier=\"large\" style=\"margin: 0 auto;\">\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <button (click)=\"addTodo(todotext.value)\">Add Todo</button>\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n        <ons-button (click)=\"addTodo(todotext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])

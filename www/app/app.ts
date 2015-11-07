@@ -1,6 +1,6 @@
 /// <reference path="./typings/angular2/angular2.d.ts" />
-declare var OnsTabElement: {prototype: {_createPageElement: Function}};
-declare var ons: any;
+declare const OnsTabElement: {prototype: {_createPageElement: Function}};
+declare const ons: any;
 const keyid = '878b251d597e2d443b1e960d54591f00';
 const format = 'json';
 let urlPath = [];
@@ -55,13 +55,13 @@ navigator.geolocation.getCurrentPosition(
             });
             return results;
         }
-        var pushValue = recordValue.bind(null, []);
+        let pushValue = recordValue.bind(null, []);
         return request.test1().then(pushValue);
     }
 
     getFirstItem().then((results, value) => {
         if ( results[0].rest.length > 0 ) {
-            for ( var i in results[0].rest ){
+            for (let i in results[0].rest){
                 urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
             }
         } else {
@@ -74,26 +74,6 @@ navigator.geolocation.getCurrentPosition(
 });
 
 class getHome {
-  getRestoResult() {
-    return JSON.parse(window.localStorage.getItem('gethome') || '[]');
-  }
-  _setItems(items) {
-    window.localStorage.setItem('gethome', JSON.stringify(items));
-  }
-  add(item) {
-    let items = this.getRestoResult();
-    items.push(item);
-    items.sort((a, b) => parseInt(a.time.replace(':', '')) - parseInt(b.time.replace(':', '')));
-    this._setItems(items);
-  }
-  remove(idx) {
-    let items = this.getRestoResult();
-    items.splice(idx, 1);
-    this._setItems(items);
-  }
-  get items() {
-    return this.getRestoResult();
-  }
 }
 
 @Component({
@@ -110,7 +90,6 @@ class getHome {
 })
 class homePage {
   gethome: getHome;
-
   constructor(gethome: getHome) {
     this.gethome = gethome;
   }
@@ -123,10 +102,9 @@ class homePage {
   template: `
   <ons-page>
     <div style="padding: 10px 9px">
-        <ons-button (click)="searchResto()" modifier="large" style="margin: 0 auto;">
+        <ons-button (click)="addTodo(todotext.value)" modifier="large" style="margin: 0 auto;">
           現在地から探す
         </ons-button>
-        <button (click)="addTodo(todotext.value)">Add Todo</button>
         <ul>
             <li *ng-for="#todo of todos">
         {{ todo }}
@@ -182,9 +160,9 @@ class meshiLogComponent {
 }
 
 bootstrap(meshiLogComponent).then(result => {
-  var injector: Injector = result.injector;
-  var loader: DynamicComponentLoader = injector.get(DynamicComponentLoader);
-  var dict = {
+  let injector: Injector = result.injector;
+  const loader: DynamicComponentLoader = injector.get(DynamicComponentLoader);
+  const dict = {
     'home.html': homePage,
     'meshilog.html': meshiLogPage
   };
