@@ -103,8 +103,8 @@ var meshiLogPage = (function () {
         //e.stopPropagation();
         this.like.unshift(_meshi);
         this.like.slice(0, 9);
-        this.saveLike(this.like);
-        this.showLikeShop();
+        saveLike(this.like);
+        showLikeShop();
         //    for(var i=0; i<$scope.searchShops.length; i++){
         // if($scope.searchShops[i].id == id){
         // $scope.searchShops[i].isLiked = true;
@@ -114,12 +114,40 @@ var meshiLogPage = (function () {
     meshiLogPage.prototype.saveLike = function (like) {
         window.localStorage.setItem('like', JSON.stringify(like));
     };
+    meshiLogPage.prototype.showLikeShop = function () {
+        this.like = JSON.parse(window.localStorage.getItem('like'));
+        if (!angular.isArray($scope.like)) {
+            this.like = [];
+        }
+        var ids = this.like;
+        var id = "";
+        for (var i = 0; i < ids.length; i++) {
+            if (i == 0) {
+                id = id + ids[i];
+            }
+            else {
+                id = id + ',' + ids[i];
+            }
+        }
+        /*
+            if(ids.length > 0){
+                $http.get(apiUrl, {params: {keyid: keyid, format: format,id: id}})
+                    .success(function(data, status, headers, config) {
+                        $scope.likeShops = $scope.createShops(data);
+                    })
+                    .error(function(data, status, headers, config) {
+                        alert('error');
+                    });
+            }else{
+                $scope.likeShops = [];
+            }*/
+    };
     meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <div ng-show=\"shop.isLiked == false\" (click)=\"addLike($event, shop.id)\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\n          </div>\n          <div ng-show=\"shop.isLiked == false\">\n            <a href=\"addLike($event, shop.id)\">\u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0</a>\n          </div>\n          <ons-button (click)=\"addLike(meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <div ng-show=\"shop.isLiked == false\" (click)=\"addLike($event, shop.id)\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\n          </div>\n          <div ng-show=\"shop.isLiked == false\">\n            <a href=\"addLike($event, shop.id)\">\u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0</a>\n          </div>\n          <ons-button (click)=\"addLike(meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n    <div ng-show=\"likeShops.length > 0\">\n        <ons-list>\n            <ons-list-item ng-repeat=\"shop in likeShops\"  modifier=\"chevron\">\n                <div ng-click=\"openWithBrowser(shop.url_mobile)\">\n                    <div class=\"detail-title\">\n                    {{meshi}}\n                    </div>\n                </div>\n            </ons-list-item>\n        </ons-list>\n    </div>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])

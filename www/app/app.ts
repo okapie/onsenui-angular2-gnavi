@@ -124,6 +124,17 @@ this.like = [];
         　</ons-button>
         </li>
       </ul>
+    <div ng-show="likeShops.length > 0">
+        <ons-list>
+            <ons-list-item ng-repeat="shop in likeShops"  modifier="chevron">
+                <div ng-click="openWithBrowser(shop.url_mobile)">
+                    <div class="detail-title">
+                    {{meshi}}
+                    </div>
+                </div>
+            </ons-list-item>
+        </ons-list>
+    </div>
     </div>
   </ons-page>
   `,
@@ -142,8 +153,8 @@ class meshiLogPage {
 
     this.like.unshift(_meshi);
     this.like.slice(0,9);
-    this.saveLike(this.like);
-    this.showLikeShop();
+    saveLike(this.like);
+    showLikeShop();
 
 
 //    for(var i=0; i<$scope.searchShops.length; i++){
@@ -154,9 +165,37 @@ class meshiLogPage {
 }
 
     saveLike(like) {
-    window.localStorage.setItem('like', JSON.stringify(like));
+        window.localStorage.setItem('like', JSON.stringify(like));
 
-}
+    }
+    showLikeShop(){
+    this.like = JSON.parse(window.localStorage.getItem('like'));
+
+    if (!angular.isArray($scope.like)) {
+        this.like = [];
+    }
+    var ids = this.like;
+    var id = "";
+    for (var i = 0 ; i<ids.length ; i++){
+        if(i == 0){
+            id = id + ids[i];
+        }else{
+            id = id + ',' + ids[i];
+        }
+    }
+/*
+    if(ids.length > 0){
+        $http.get(apiUrl, {params: {keyid: keyid, format: format,id: id}})
+            .success(function(data, status, headers, config) {
+                $scope.likeShops = $scope.createShops(data);
+            })
+            .error(function(data, status, headers, config) {
+                alert('error');
+            });
+    }else{
+        $scope.likeShops = [];
+    }*/
+    }
 }
 
 @Component({
