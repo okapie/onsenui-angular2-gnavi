@@ -119,7 +119,7 @@ this.like = [];
           <div ng-show="shop.isLiked == false">
             <a href="addLike($event, shop.id)">お気に入りに追加</a>
           </div>
-          <ons-button (click)="addLike(meshi)" modifier="large" style="margin: 0 auto;">
+          <ons-button (click)="addLike($event, meshi)" modifier="large" style="margin: 0 auto;">
             お気に入りに追加するよ
         　</ons-button>
         </li>
@@ -147,14 +147,26 @@ class meshiLogPage {
   addResult(meshi: string) {
     this.meshis.push(meshi);
   }
-  addLike(_meshi){
-    alert(_meshi);
-    //e.stopPropagation();
+  addLike(e, _meshi){
+    e.stopPropagation();
+    localStorage.setItem('like', _meshi);
+    let value = localStorage.getItem('like');
+    alert("value is " + value);
+    /*
+      this.openWithBrowser = function(url) {
+          window.open(url, '_blank', 'location=no');
 
+      };
+      */
+
+    //showLikeShop();
+
+/*
     this.like.unshift(_meshi);
     this.like.slice(0,9);
     saveLike(this.like);
     showLikeShop();
+    */
 
 
 //    for(var i=0; i<$scope.searchShops.length; i++){
@@ -162,39 +174,6 @@ class meshiLogPage {
            // $scope.searchShops[i].isLiked = true;
        // }
    // }
-}
-
-    saveLike(like) {
-        window.localStorage.setItem('like', JSON.stringify(like));
-
-    }
-    showLikeShop(){
-    this.like = JSON.parse(window.localStorage.getItem('like'));
-
-    if (!angular.isArray($scope.like)) {
-        this.like = [];
-    }
-    var ids = this.like;
-    var id = "";
-    for (var i = 0 ; i<ids.length ; i++){
-        if(i == 0){
-            id = id + ids[i];
-        }else{
-            id = id + ',' + ids[i];
-        }
-    }
-/*
-    if(ids.length > 0){
-        $http.get(apiUrl, {params: {keyid: keyid, format: format,id: id}})
-            .success(function(data, status, headers, config) {
-                $scope.likeShops = $scope.createShops(data);
-            })
-            .error(function(data, status, headers, config) {
-                alert('error');
-            });
-    }else{
-        $scope.likeShops = [];
-    }*/
     }
 }
 
