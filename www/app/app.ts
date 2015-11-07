@@ -107,7 +107,7 @@ this.like = [];
   template: `
   <ons-page>
     <div style="padding: 10px 9px">
-      <ons-button (click)="addTodo(meshitext.value)" modifier="large" style="margin: 0 auto;">
+      <ons-button (click)="addResult(meshitext.value)" modifier="large" style="margin: 0 auto;">
         現在地から探す
       </ons-button>
       <ul>
@@ -133,18 +133,18 @@ class meshiLogPage {
   constructor() {
     this.meshis = urlPath;
   }
-  addTodo(meshi: string) {
+  addResult(meshi: string) {
     this.meshis.push(meshi);
   }
-  addLike(id){
-    alert(id);
+  addLike(_meshi){
+    alert(_meshi);
     //e.stopPropagation();
-    /*
-    this.like.unshift(id);
+
+    this.like.unshift(_meshi);
     this.like.slice(0,9);
-    this.saveLike($scope.like);
+    this.saveLike(this.like);
     this.showLikeShop();
-    */
+
 
 //    for(var i=0; i<$scope.searchShops.length; i++){
        // if($scope.searchShops[i].id == id){
@@ -152,10 +152,10 @@ class meshiLogPage {
        // }
    // }
 }
-/*
+
     saveLike(like) {
     window.localStorage.setItem('like', JSON.stringify(like));
-    */
+
 }
 }
 

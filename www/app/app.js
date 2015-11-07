@@ -95,30 +95,31 @@ var meshiLogPage = (function () {
     function meshiLogPage() {
         this.meshis = urlPath;
     }
-    meshiLogPage.prototype.addTodo = function (meshi) {
+    meshiLogPage.prototype.addResult = function (meshi) {
         this.meshis.push(meshi);
     };
-    meshiLogPage.prototype.addLike = function (id) {
-        alert(id);
+    meshiLogPage.prototype.addLike = function (_meshi) {
+        alert(_meshi);
         //e.stopPropagation();
-        /*
-        this.like.unshift(id);
-        this.like.slice(0,9);
-        this.saveLike($scope.like);
+        this.like.unshift(_meshi);
+        this.like.slice(0, 9);
+        this.saveLike(this.like);
         this.showLikeShop();
-        */
         //    for(var i=0; i<$scope.searchShops.length; i++){
         // if($scope.searchShops[i].id == id){
         // $scope.searchShops[i].isLiked = true;
         // }
         // }
     };
+    meshiLogPage.prototype.saveLike = function (like) {
+        window.localStorage.setItem('like', JSON.stringify(like));
+    };
     meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addTodo(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <div ng-show=\"shop.isLiked == false\" (click)=\"addLike($event, shop.id)\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\n          </div>\n          <div ng-show=\"shop.isLiked == false\">\n            <a href=\"addLike($event, shop.id)\">\u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0</a>\n          </div>\n          <ons-button (click)=\"addLike(meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <div ng-show=\"shop.isLiked == false\" (click)=\"addLike($event, shop.id)\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\n          </div>\n          <div ng-show=\"shop.isLiked == false\">\n            <a href=\"addLike($event, shop.id)\">\u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0</a>\n          </div>\n          <ons-button (click)=\"addLike(meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])
