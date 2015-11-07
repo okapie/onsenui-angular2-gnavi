@@ -89,23 +89,17 @@ var homePage = (function () {
 })();
 var meshiLogPage = (function () {
     function meshiLogPage() {
-        this.todos = urlPath;
+        this.meshis = urlPath;
     }
-    meshiLogPage.prototype.addTodo = function (todo) {
-        this.todos.push(todo);
-    };
-    meshiLogPage.prototype.doneTyping = function ($event) {
-        if ($event.which === 13) {
-            this.addTodo($event.target.value);
-            $event.target.value = null;
-        }
+    meshiLogPage.prototype.addTodo = function (meshi) {
+        this.meshis.push(meshi);
     };
     meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n        <ons-button (click)=\"addTodo(todotext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n          \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n        </ons-button>\n        <ul>\n            <li *ng-for=\"#todo of todos\">\n        {{ todo }}\n        </li>\n        </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addTodo(todotext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])

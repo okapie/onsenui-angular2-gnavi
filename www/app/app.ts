@@ -18,58 +18,58 @@ import {
 import {Injector, bind} from 'angular2/di';
 
 navigator.geolocation.getCurrentPosition(
-    function(position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let range = '1';
+  function(position) {
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    let range = '1';
 
-        function getUrl(url) {
-            return new Promise((resolve, reject) => {
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        resolve(xhr.responseText);
-                    } else {
-                        reject(new Error(xhr.statusText), xhr.response);
-                    }
-                };
-                xhr.onerror = () => {
-                    reject(new Error(xhr.statusText));
-                };
-                xhr.send();
-            });
-        }
+    function getUrl(url) {
+      return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            resolve(xhr.responseText);
+          } else {
+            reject(new Error(xhr.statusText), xhr.response);
+          }
+        };
+        xhr.onerror = () => {
+          reject(new Error(xhr.statusText));
+        };
+        xhr.send();
+      });
+    }
 
     let request = {
-        test1: function getTest1() {
-            return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range).then(JSON.parse);
-        }
+      test1: function getTest1() {
+        return getUrl('http://api.gnavi.co.jp/RestSearchAPI/20150630?keyid=' + keyid + '&format=' + format + '&latitude=' + latitude + '&longitude=' + longitude + '&range=' + range).then(JSON.parse);
+      }
     };
 
     function getFirstItem() {
-        function recordValue(results, value) {
-            results.push(value);
-            Object.keys(value).forEach(function(element){
-                results.push(value[element]);
-            });
-            return results;
-        }
-        let pushValue = recordValue.bind(null, []);
-        return request.test1().then(pushValue);
+      function recordValue(results, value) {
+        results.push(value);
+        Object.keys(value).forEach(function(element){
+          results.push(value[element]);
+        });
+          return results;
+      }
+      let pushValue = recordValue.bind(null, []);
+      return request.test1().then(pushValue);
     }
 
     getFirstItem().then((results, value) => {
-        if ( results[0].rest.length > 0 ) {
-            for (let i in results[0].rest){
-                urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
-            }
-        } else {
-            alert('Not found');
+      if (results[0].rest.length > 0) {
+        for (let i in results[0].rest){
+          urlPath.push(results[0].rest[i].id + ' ' + results[0].rest[i].name + ' ' + results[0].rest[i].access.line + ' ' + results[0].rest[i].access.station + ' ' + results[0].rest[i].access.walk + '分\n');
         }
+      } else {
+        alert('Not found');
+      }
     }).then(null, e => {
-        console.error(e);
-        alert('Error');
+      console.error(e);
+      alert('Error');
     });
 });
 
@@ -102,33 +102,26 @@ class homePage {
   template: `
   <ons-page>
     <div style="padding: 10px 9px">
-        <ons-button (click)="addTodo(todotext.value)" modifier="large" style="margin: 0 auto;">
-          現在地から探す
-        </ons-button>
-        <ul>
-            <li *ng-for="#todo of todos">
-        {{ todo }}
+      <ons-button (click)="addTodo(todotext.value)" modifier="large" style="margin: 0 auto;">
+        現在地から探す
+      </ons-button>
+      <ul>
+        <li *ng-for="#meshi of meshis">
+          {{ meshi }}
         </li>
-        </ul>
+      </ul>
     </div>
   </ons-page>
   `,
   directives: [NgFor]
 })
 class meshiLogPage {
-    constructor() {
-        this.todos = urlPath;
-    }
-    addTodo(todo: string) {
-        this.todos.push(todo);
-    }
-
-    doneTyping($event) {
-        if($event.which === 13) {
-            this.addTodo($event.target.value);
-            $event.target.value = null;
-        }
-    }
+  constructor() {
+    this.meshis = urlPath;
+  }
+  addTodo(meshi: string) {
+    this.meshis.push(meshi);
+  }
 }
 
 @Component({
