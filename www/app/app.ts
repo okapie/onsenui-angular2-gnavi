@@ -95,6 +95,11 @@ class homePage {
   }
 }
 
+this.like = JSON.parse(window.localStorage.getItem('like'));
+//if (!angular.isArray($scope.like)) {
+this.like = [];
+//}
+
 @Component({
   selector: 'ons-page'
 })
@@ -102,12 +107,21 @@ class homePage {
   template: `
   <ons-page>
     <div style="padding: 10px 9px">
-      <ons-button (click)="addTodo(todotext.value)" modifier="large" style="margin: 0 auto;">
+      <ons-button (click)="addTodo(meshitext.value)" modifier="large" style="margin: 0 auto;">
         現在地から探す
       </ons-button>
       <ul>
         <li *ng-for="#meshi of meshis">
           {{ meshi }}
+          <div ng-show="shop.isLiked == false" (click)="addLike($event, shop.id)">
+            お気に入りに追加
+          </div>
+          <div ng-show="shop.isLiked == false">
+            <a href="addLike($event, shop.id)">お気に入りに追加</a>
+          </div>
+          <ons-button (click)="addLike(meshi)" modifier="large" style="margin: 0 auto;">
+            お気に入りに追加するよ
+        　</ons-button>
         </li>
       </ul>
     </div>
@@ -122,6 +136,27 @@ class meshiLogPage {
   addTodo(meshi: string) {
     this.meshis.push(meshi);
   }
+  addLike(id){
+    alert(id);
+    //e.stopPropagation();
+    /*
+    this.like.unshift(id);
+    this.like.slice(0,9);
+    this.saveLike($scope.like);
+    this.showLikeShop();
+    */
+
+//    for(var i=0; i<$scope.searchShops.length; i++){
+       // if($scope.searchShops[i].id == id){
+           // $scope.searchShops[i].isLiked = true;
+       // }
+   // }
+}
+/*
+    saveLike(like) {
+    window.localStorage.setItem('like', JSON.stringify(like));
+    */
+}
 }
 
 @Component({
