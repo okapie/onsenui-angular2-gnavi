@@ -85,6 +85,9 @@ class getHome {
       <img src="images/title.png" width="320px" >
       <img src="images/top-yakitori.png" width="320px">
     </div>
+<ul>        <li *ng-for="#meshiResult of meshiResults">
+{{ meshiResult }}
+</li></ul>
   `,
   directives: [NgFor, NgIf]
 })
@@ -113,28 +116,14 @@ this.like = [];
       <ul>
         <li *ng-for="#meshi of meshis">
           {{ meshi }}
-          <div ng-show="shop.isLiked == false" (click)="addLike($event, shop.id)">
-            お気に入りに追加
-          </div>
-          <div ng-show="shop.isLiked == false">
-            <a href="addLike($event, shop.id)">お気に入りに追加</a>
-          </div>
           <ons-button (click)="addLike($event, meshi)" modifier="large" style="margin: 0 auto;">
             お気に入りに追加するよ
         　</ons-button>
         </li>
+        <li *ng-for="#meshiResult of meshiResults">
+          {{ meshiResult }}
+        </li>
       </ul>
-    <div ng-show="likeShops.length > 0">
-        <ons-list>
-            <ons-list-item ng-repeat="shop in likeShops"  modifier="chevron">
-                <div ng-click="openWithBrowser(shop.url_mobile)">
-                    <div class="detail-title">
-                    {{meshi}}
-                    </div>
-                </div>
-            </ons-list-item>
-        </ons-list>
-    </div>
     </div>
   </ons-page>
   `,
@@ -143,6 +132,7 @@ this.like = [];
 class meshiLogPage {
   constructor() {
     this.meshis = urlPath;
+    this.meshiResults = [];
   }
   addResult(meshi: string) {
     this.meshis.push(meshi);
@@ -152,29 +142,8 @@ class meshiLogPage {
     localStorage.setItem('like', _meshi);
     let value = localStorage.getItem('like');
     alert("value is " + value);
-    /*
-      this.openWithBrowser = function(url) {
-          window.open(url, '_blank', 'location=no');
-
-      };
-      */
-
-    //showLikeShop();
-
-/*
-    this.like.unshift(_meshi);
-    this.like.slice(0,9);
-    saveLike(this.like);
-    showLikeShop();
-    */
-
-
-//    for(var i=0; i<$scope.searchShops.length; i++){
-       // if($scope.searchShops[i].id == id){
-           // $scope.searchShops[i].isLiked = true;
-       // }
-   // }
-    }
+    this.meshiResults.push(value);
+  }
 }
 
 @Component({
