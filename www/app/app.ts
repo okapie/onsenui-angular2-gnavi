@@ -103,6 +103,8 @@ this.like = JSON.parse(window.localStorage.getItem('like'));
 this.like = [];
 //}
 
+let value;
+
 @Component({
   selector: 'ons-page'
 })
@@ -124,6 +126,9 @@ this.like = [];
           {{ meshiResult }}
         </li>
       </ul>
+        <ons-button (click)="watchResult()" modifier="large" style="margin: 0 auto;">
+        リストを見る
+        </ons-button>
     </div>
   </ons-page>
   `,
@@ -139,11 +144,13 @@ class meshiLogPage {
   }
   addLike(e, _meshi){
     e.stopPropagation();
-    localStorage.setItem('like', _meshi);
-    let value = localStorage.getItem('like');
-    alert("value is " + value);
+    window.localStorage.setItem('like', _meshi);
+    value = window.localStorage.getItem('like');
     this.meshiResults.push(value);
   }
+    watchResult() {
+        alert("value is " + value);
+    }
 }
 
 @Component({

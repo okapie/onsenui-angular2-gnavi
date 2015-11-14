@@ -91,6 +91,7 @@ this.like = JSON.parse(window.localStorage.getItem('like'));
 //if (!angular.isArray($scope.like)) {
 this.like = [];
 //}
+var value;
 var meshiLogPage = (function () {
     function meshiLogPage() {
         this.meshis = urlPath;
@@ -101,17 +102,19 @@ var meshiLogPage = (function () {
     };
     meshiLogPage.prototype.addLike = function (e, _meshi) {
         e.stopPropagation();
-        localStorage.setItem('like', _meshi);
-        var value = localStorage.getItem('like');
-        alert("value is " + value);
+        window.localStorage.setItem('like', _meshi);
+        value = window.localStorage.getItem('like');
         this.meshiResults.push(value);
+    };
+    meshiLogPage.prototype.watchResult = function () {
+        alert("value is " + value);
     };
     meshiLogPage = __decorate([
         angular2_1.Component({
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <ons-button (click)=\"addLike($event, meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n        <li *ng-for=\"#meshiResult of meshiResults\">\n          {{ meshiResult }}\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <ons-button (click)=\"addLike($event, meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n        <li *ng-for=\"#meshiResult of meshiResults\">\n          {{ meshiResult }}\n        </li>\n      </ul>\n        <ons-button (click)=\"watchResult()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u30EA\u30B9\u30C8\u3092\u898B\u308B\n        </ons-button>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])
