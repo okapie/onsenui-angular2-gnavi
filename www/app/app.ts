@@ -123,18 +123,17 @@ let listResult = new Array();
             お気に入りに追加するよ
         　</ons-button>
         </li>
-        <li *ng-for="#meshiResult of listResult">
-         oooooooo {{ meshiResult }}
-        </li>
       </ul>
 
-
+<ons-button (click)="watchResult()" modifier="large" style="margin: 0 auto;">
+リストを見る
+</ons-button>
 
 
 <ul id='okapie'>
     <li *ng-for="#meshiResult of listResult">
 {{ meshiResult }}
-<ons-button (click)="removeResult(meshi)" modifier="large" style="margin: 0 auto;">
+<ons-button (click)="removeResult(meshiResult)" modifier="large" style="margin: 0 auto;">
 削除
 　</ons-button>
 </li>
@@ -161,18 +160,18 @@ class meshiLogPage {
       this.listResult.push(value);
 
   }
-  watchResult(e, _meshi) {
-      e.stopPropagation();
+  watchResult() {
+      //e.stopPropagation();
 
       //listResult = _meshi;
      // listResult.push(_meshi);
     //alert("value is " + listResult[0]);
     //document.getElementById('okapie').innerHTML = listResult[0] + '<ons-button (click)="removeResult()">消す</ons-button>';
-  //window.open('#okapie', 'location=no');
+  window.open('#okapie', 'location=no');
   }
   removeResult(_meshi) {
     alert(_meshi);
-    return _meshi.remove();
+    _meshi.delete();
   }
 }
 
