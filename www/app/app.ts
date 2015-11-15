@@ -95,8 +95,6 @@ class homePage {
   }
 }
 
-//let value;
-
 @Component({
   selector: 'ons-page'
 })
@@ -148,7 +146,7 @@ class meshiLogPage {
     this.listResult.push(value);
   }
   watchResult() {
-    window.open('#list', 'width=400, height=100%, scrollbars=yes, location=no');
+    window.open('#list', 'width=400, height=100%, location=no');
   }
   removeResult(_meshi) {
     for(let i in listResult){

@@ -88,7 +88,6 @@ var homePage = (function () {
     ], homePage);
     return homePage;
 })();
-//let value;
 var meshiLogPage = (function () {
     function meshiLogPage() {
         this.meshis = urlPath;
@@ -106,7 +105,7 @@ var meshiLogPage = (function () {
         this.listResult.push(value);
     };
     meshiLogPage.prototype.watchResult = function () {
-        window.open('#list', 'width=400, height=100%, scrollbars=yes, location=no');
+        window.open('#list', 'width=400, height=100%, location=no');
     };
     meshiLogPage.prototype.removeResult = function (_meshi) {
         for (var i in listResult) {
