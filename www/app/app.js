@@ -13,6 +13,7 @@ if (typeof __metadata !== "function") __metadata = function (k, v) {
 var keyid = '878b251d597e2d443b1e960d54591f00';
 var format = 'json';
 var urlPath = [];
+var listResult = new Array();
 var angular2_1 = require('angular2/angular2');
 navigator.geolocation.getCurrentPosition(function (position) {
     var latitude = position.coords.latitude;
@@ -80,19 +81,14 @@ var homePage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n    <div style=\"text-align:center; padding-top:50px;\">\n      <img src=\"images/title.png\" width=\"320px\" >\n      <img src=\"images/top-yakitori.png\" width=\"320px\">\n    </div>\n<ul>        <li *ng-for=\"#meshiResult of meshiResults\">\n{{ meshiResult }}\n</li></ul>\n  ",
+            template: "\n    <div style=\"text-align:center; padding-top:50px;\">\n      <img src=\"images/title.png\" width=\"320px\" >\n    </div>\n  ",
             directives: [angular2_1.NgFor, angular2_1.NgIf]
         }), 
         __metadata('design:paramtypes', [getHome])
     ], homePage);
     return homePage;
 })();
-this.like = JSON.parse(window.localStorage.getItem('like'));
-//if (!angular.isArray($scope.like)) {
-this.like = [];
-//}
-var value;
-var listResult = new Array();
+//let value;
 var meshiLogPage = (function () {
     function meshiLogPage() {
         this.meshis = urlPath;
@@ -110,18 +106,11 @@ var meshiLogPage = (function () {
         this.listResult.push(value);
     };
     meshiLogPage.prototype.watchResult = function () {
-        //e.stopPropagation();
-        //listResult = _meshi;
-        // listResult.push(_meshi);
-        //alert("value is " + listResult[0]);
-        //document.getElementById('okapie').innerHTML = listResult[0] + '<ons-button (click)="removeResult()">消す</ons-button>';
-        window.open('#okapie', 'location=no');
+        window.open('#list', 'width=400, height=100%, scrollbars=yes, location=no');
     };
     meshiLogPage.prototype.removeResult = function (_meshi) {
-        alert(_meshi);
-        for (var i = 0; i < listResult.length; i++) {
+        for (var i in listResult) {
             if (listResult[i] == _meshi) {
-                //spliceメソッドで要素を削除
                 listResult.splice(i--, 1);
             }
         }
@@ -131,7 +120,7 @@ var meshiLogPage = (function () {
             selector: 'ons-page'
         }),
         angular2_1.View({
-            template: "\n  <ons-page>\n    <div style=\"padding: 10px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <ons-button (click)=\"addLike($event, meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n\n<ons-button (click)=\"watchResult()\" modifier=\"large\" style=\"margin: 0 auto;\">\n\u30EA\u30B9\u30C8\u3092\u898B\u308B\n</ons-button>\n\n\n<ul id='okapie'>\n    <li *ng-for=\"#meshiResult of listResult\">\n{{ meshiResult }}\n<ons-button (click)=\"removeResult(meshiResult)\" modifier=\"large\" style=\"margin: 0 auto;\">\n\u524A\u9664\n\u3000</ons-button>\n</li>\n</ul>\n    </div>\n  </ons-page>\n  ",
+            template: "\n  <ons-page>\n    <div style=\"padding: 55px 9px\">\n      <ons-button (click)=\"addResult(meshitext.value)\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u73FE\u5728\u5730\u304B\u3089\u63A2\u3059\n      </ons-button>\n      <ul>\n        <li *ng-for=\"#meshi of meshis\">\n          {{ meshi }}\n          <ons-button (click)=\"addLike($event, meshi)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u304A\u6C17\u306B\u5165\u308A\u306B\u8FFD\u52A0\u3059\u308B\u3088\n        \u3000</ons-button>\n        </li>\n      </ul>\n      <ons-button (click)=\"watchResult()\" modifier=\"large\" style=\"margin: 0 auto;\">\n        \u30EA\u30B9\u30C8\u3092\u898B\u308B\n      </ons-button>\n      <ul id='list'>\n        <li *ng-for=\"#meshiResult of listResult\">\n          {{ meshiResult }}\n          <ons-button (click)=\"removeResult(meshiResult)\" modifier=\"large\" style=\"margin: 0 auto;\">\n            \u524A\u9664\n\u3000        </ons-button>\n        </li>\n      </ul>\n    </div>\n  </ons-page>\n  ",
             directives: [angular2_1.NgFor]
         }), 
         __metadata('design:paramtypes', [])

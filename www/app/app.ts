@@ -4,6 +4,7 @@ declare const ons: any;
 const keyid = '878b251d597e2d443b1e960d54591f00';
 const format = 'json';
 let urlPath = [];
+let listResult = new Array();
 
 import {
   Component,
@@ -83,11 +84,7 @@ class getHome {
   template: `
     <div style="text-align:center; padding-top:50px;">
       <img src="images/title.png" width="320px" >
-      <img src="images/top-yakitori.png" width="320px">
     </div>
-<ul>        <li *ng-for="#meshiResult of meshiResults">
-{{ meshiResult }}
-</li></ul>
   `,
   directives: [NgFor, NgIf]
 })
@@ -98,13 +95,7 @@ class homePage {
   }
 }
 
-this.like = JSON.parse(window.localStorage.getItem('like'));
-//if (!angular.isArray($scope.like)) {
-this.like = [];
-//}
-
-let value;
-let listResult = new Array();
+//let value;
 
 @Component({
   selector: 'ons-page'
@@ -112,7 +103,7 @@ let listResult = new Array();
 @View({
   template: `
   <ons-page>
-    <div style="padding: 10px 9px">
+    <div style="padding: 55px 9px">
       <ons-button (click)="addResult(meshitext.value)" modifier="large" style="margin: 0 auto;">
         現在地から探す
       </ons-button>
@@ -124,20 +115,17 @@ let listResult = new Array();
         　</ons-button>
         </li>
       </ul>
-
-<ons-button (click)="watchResult()" modifier="large" style="margin: 0 auto;">
-リストを見る
-</ons-button>
-
-
-<ul id='okapie'>
-    <li *ng-for="#meshiResult of listResult">
-{{ meshiResult }}
-<ons-button (click)="removeResult(meshiResult)" modifier="large" style="margin: 0 auto;">
-削除
-　</ons-button>
-</li>
-</ul>
+      <ons-button (click)="watchResult()" modifier="large" style="margin: 0 auto;">
+        リストを見る
+      </ons-button>
+      <ul id='list'>
+        <li *ng-for="#meshiResult of listResult">
+          {{ meshiResult }}
+          <ons-button (click)="removeResult(meshiResult)" modifier="large" style="margin: 0 auto;">
+            削除
+　        </ons-button>
+        </li>
+      </ul>
     </div>
   </ons-page>
   `,
@@ -152,31 +140,22 @@ class meshiLogPage {
   addResult(meshi: string) {
     this.meshis.push(meshi);
   }
-  addLike(e, _meshi){
+  addLike(e,_meshi){
     e.stopPropagation();
     window.localStorage.setItem('like', _meshi);
     value = window.localStorage.getItem('like');
     this.meshiResults.push(value);
-      this.listResult.push(value);
-
+    this.listResult.push(value);
   }
   watchResult() {
-      //e.stopPropagation();
-
-      //listResult = _meshi;
-     // listResult.push(_meshi);
-    //alert("value is " + listResult[0]);
-    //document.getElementById('okapie').innerHTML = listResult[0] + '<ons-button (click)="removeResult()">消す</ons-button>';
-  window.open('#okapie', 'location=no');
+    window.open('#list', 'width=400, height=100%, scrollbars=yes, location=no');
   }
   removeResult(_meshi) {
-    alert(_meshi);
-      for(let i=0; i<listResult.length; i++){
-          if(listResult[i] == _meshi){
-              //spliceメソッドで要素を削除
-              listResult.splice(i--, 1);
-          }
+    for(let i in listResult){
+      if(listResult[i] == _meshi){
+        listResult.splice(i--, 1);
       }
+    }
   }
 }
 
