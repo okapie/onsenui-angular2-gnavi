@@ -171,7 +171,12 @@ class meshiLogPage {
   }
   removeResult(_meshi) {
     alert(_meshi);
-    _meshi.delete();
+      for(let i=0; i<listResult.length; i++){
+          if(listResult[i] == _meshi){
+              //spliceメソッドで要素を削除
+              listResult.splice(i--, 1);
+          }
+      }
   }
 }
 
