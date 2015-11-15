@@ -104,6 +104,7 @@ this.like = [];
 //}
 
 let value;
+let listResult = [];
 
 @Component({
   selector: 'ons-page'
@@ -126,12 +127,19 @@ let value;
           {{ meshiResult }}
         </li>
       </ul>
-        <ons-button (click)="watchResult()" modifier="large" style="margin: 0 auto;">
+        <ons-button (click)="watchResult(listResult)" modifier="large" style="margin: 0 auto;">
         リストを見る
         </ons-button>
-    </div>
-    <div id='okapie'>
-        OKP!!
+
+
+<ul id='okapie'>
+    <li *ng-for="#meshiResult of meshiResults">
+{{ meshiResult }}
+<ons-button (click)="removeResult(meshi)" modifier="large" style="margin: 0 auto;">
+削除
+　</ons-button>
+</li>
+</ul>
     </div>
   </ons-page>
   `,
@@ -150,11 +158,18 @@ class meshiLogPage {
     window.localStorage.setItem('like', _meshi);
     value = window.localStorage.getItem('like');
     this.meshiResults.push(value);
+    //listResult.push(value);
   }
-  watchResult() {
-    alert("value is " + value);
-    document.getElementById('okapie').innerHTML = value + '<ons-button (load)="this.remove()">消す</ons-button>';
-    window.open('#okapie', 'location=no');
+  watchResult(e, _meshi) {
+      e.stopPropagation();
+      listResult.push(_meshi);
+    alert("value is " + listResult[0]);
+    //document.getElementById('okapie').innerHTML = listResult[0] + '<ons-button (click)="removeResult()">消す</ons-button>';
+  window.open('#okapie', 'location=no');
+  }
+  removeResult(_meshi) {
+    alert(_meshi);
+    return _meshi.remove();
   }
 }
 
