@@ -130,6 +130,9 @@ let value;
         リストを見る
         </ons-button>
     </div>
+    <div id='okapie'>
+        OKP!!
+    </div>
   </ons-page>
   `,
   directives: [NgFor]
@@ -150,6 +153,13 @@ class meshiLogPage {
   }
     watchResult() {
         alert("value is " + value);
+        //WebViewで開く
+
+        document.getElementById('okapie').innerText = value;
+
+        //this.openWithBrowser = function(url) {
+            //window.open('#okapie', 'location=no');
+        //};
     }
 }
 
