@@ -151,16 +151,11 @@ class meshiLogPage {
     value = window.localStorage.getItem('like');
     this.meshiResults.push(value);
   }
-    watchResult() {
-        alert("value is " + value);
-        //WebViewで開く
-
-        document.getElementById('okapie').innerText = value;
-
-        //this.openWithBrowser = function(url) {
-            //window.open('#okapie', 'location=no');
-        //};
-    }
+  watchResult() {
+    alert("value is " + value);
+    document.getElementById('okapie').innerHTML = value + '<ons-button (load)="this.remove()">消す</ons-button>';
+    window.open('#okapie', 'location=no');
+  }
 }
 
 @Component({

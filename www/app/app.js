@@ -108,11 +108,8 @@ var meshiLogPage = (function () {
     };
     meshiLogPage.prototype.watchResult = function () {
         alert("value is " + value);
-        //WebViewで開く
-        document.getElementById('okapie').innerText = value;
-        //this.openWithBrowser = function(url) {
-        //window.open('#okapie', 'location=no');
-        //};
+        document.getElementById('okapie').innerHTML = value + '<ons-button (load)="this.remove()">消す</ons-button>';
+        window.open('#okapie', 'location=no');
     };
     meshiLogPage = __decorate([
         angular2_1.Component({
