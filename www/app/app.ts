@@ -104,7 +104,7 @@ this.like = [];
 //}
 
 let value;
-let listResult = [];
+let listResult = new Array();
 
 @Component({
   selector: 'ons-page'
@@ -123,17 +123,16 @@ let listResult = [];
             お気に入りに追加するよ
         　</ons-button>
         </li>
-        <li *ng-for="#meshiResult of meshiResults">
-          {{ meshiResult }}
+        <li *ng-for="#meshiResult of listResult">
+         oooooooo {{ meshiResult }}
         </li>
       </ul>
-        <ons-button (click)="watchResult(listResult)" modifier="large" style="margin: 0 auto;">
-        リストを見る
-        </ons-button>
+
+
 
 
 <ul id='okapie'>
-    <li *ng-for="#meshiResult of meshiResults">
+    <li *ng-for="#meshiResult of listResult">
 {{ meshiResult }}
 <ons-button (click)="removeResult(meshi)" modifier="large" style="margin: 0 auto;">
 削除
@@ -149,6 +148,7 @@ class meshiLogPage {
   constructor() {
     this.meshis = urlPath;
     this.meshiResults = [];
+    this.listResult = listResult;
   }
   addResult(meshi: string) {
     this.meshis.push(meshi);
@@ -158,14 +158,17 @@ class meshiLogPage {
     window.localStorage.setItem('like', _meshi);
     value = window.localStorage.getItem('like');
     this.meshiResults.push(value);
-    //listResult.push(value);
+      this.listResult.push(value);
+
   }
   watchResult(e, _meshi) {
       e.stopPropagation();
-      listResult.push(_meshi);
-    alert("value is " + listResult[0]);
+
+      //listResult = _meshi;
+     // listResult.push(_meshi);
+    //alert("value is " + listResult[0]);
     //document.getElementById('okapie').innerHTML = listResult[0] + '<ons-button (click)="removeResult()">消す</ons-button>';
-  window.open('#okapie', 'location=no');
+  //window.open('#okapie', 'location=no');
   }
   removeResult(_meshi) {
     alert(_meshi);
